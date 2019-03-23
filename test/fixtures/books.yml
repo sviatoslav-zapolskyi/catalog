@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hash_id: MyString
+  title: MyString
+  pages: 1
+  year: 1
+  format: 1
+  isbn: MyString
+  volume: 1
+  volumes: 1
+  price: MyString
+  is_new: false
+  condition: 1
+  publisher_id: 1
+  serie_id: 1
+  language_id: 1
+  shelf: MyString
+
+two:
+  hash_id: MyString
+  title: MyString
+  pages: 1
+  year: 1
+  format: 1
+  isbn: MyString
+  volume: 1
+  volumes: 1
+  price: MyString
+  is_new: false
+  condition: 1
+  publisher_id: 1
+  serie_id: 1
+  language_id: 1
+  shelf: MyString

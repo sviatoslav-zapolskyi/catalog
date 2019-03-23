@@ -1,0 +1,79 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Hash:</strong>
+  <%= @book.hash_id %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @book.title %>
+</p>
+
+<p>
+  <strong>Pages:</strong>
+  <%= @book.pages %>
+</p>
+
+<p>
+  <strong>Year:</strong>
+  <%= @book.year %>
+</p>
+
+<p>
+  <strong>Format:</strong>
+  <%= @book.format %>
+</p>
+
+<p>
+  <strong>Isbn:</strong>
+  <%= @book.isbn %>
+</p>
+
+<p>
+  <strong>Volume:</strong>
+  <%= @book.volume %>
+</p>
+
+<p>
+  <strong>Volumes:</strong>
+  <%= @book.volumes %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @book.price %>
+</p>
+
+<p>
+  <strong>Is new:</strong>
+  <%= @book.is_new %>
+</p>
+
+<p>
+  <strong>Condition:</strong>
+  <%= @book.condition %>
+</p>
+
+<p>
+  <strong>Publisher:</strong>
+  <%= @book.publisher_id %>
+</p>
+
+<p>
+  <strong>Serie:</strong>
+  <%= @book.serie_id %>
+</p>
+
+<p>
+  <strong>Language:</strong>
+  <%= @book.language_id %>
+</p>
+
+<p>
+  <strong>Shelf:</strong>
+  <%= @book.shelf %>
+</p>
+
+<%= link_to 'Edit', edit_book_path(@book) %> |
+<%= link_to 'Back', books_path %>
