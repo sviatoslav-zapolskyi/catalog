@@ -25,6 +25,8 @@ class BooksController < ApplicationController
   # POST /books.json
   def create
     @book = Book.new(book_params)
+    @book.hash_id= new_hash_id
+    @book.works << create_works
 
     respond_to do |format|
       if @book.save
@@ -69,6 +71,23 @@ class BooksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_params
-      params.require(:book).permit(:hash_id, :title, :pages, :year, :format, :isbn, :volume, :volumes, :price, :is_new, :condition, :publisher_id, :serie_id, :language_id, :shelf)
+      params.require(:book).permit(:title, :pages, :year, :format, :isbn, :volume, :volumes, :price, :is_new, :condition, :publisher, :serie, :language, :shelf)
     end
+
+  def works_params
+    params.require(:book).permit({ works: [:title, :authors, :interpreters] })[:works]
+  end
+
+  def create_works
+    works_params.map do |work_params|
+      Work.create work_params
+    end
+  end
+
+  def new_hash_id
+    begin
+      hash_id = SecureRandom.hex(3)
+    end while Book.find_by hash_id: hash_id
+    hash_id
+  end
 end

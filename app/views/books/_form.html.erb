@@ -1,92 +1,114 @@
-<%= form_with(model: book, local: true) do |form| %>
+<%= form_for @book do |book_form| %>
   <% if book.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(book.errors.count, "error") %> prohibited this book from being saved:</h2>
 
       <ul>
-      <% book.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% book.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">title</th>
+      <th scope="col">authors</th>
+      <th scope="col">interpreters</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td><%= text_field_tag "book[works][][title]" %></td>
+      <td><%= text_field_tag "book[works][][authors]", '', class: "autocomplete_author", id: "author_1" %></td>
+
+      <td><%= text_field_tag "book[works][][interpreters]", '', class: "autocomplete_interpreter", id: "interpreter_1" %></td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td><%= text_field_tag "book[works][][title]" %></td>
+      <td><%= text_field_tag "book[works][][authors]", '', class: "autocomplete_author", id: "author_2" %></td>
+      <td><%= text_field_tag "book[works][][interpreters]", '', class: "autocomplete_interpreter", id: "interpreter_2" %></td>
+    </tr>
+    </tbody>
+  </table>
+
+
   <div class="field">
-    <%= form.label :hash_id %>
-    <%= form.text_field :hash_id %>
+    <%= book_form.label :title %>
+    <%= book_form.text_field :title %>
   </div>
 
   <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
+    <%= book_form.label :pages %>
+    <%= book_form.number_field :pages %>
   </div>
 
   <div class="field">
-    <%= form.label :pages %>
-    <%= form.number_field :pages %>
+    <%= book_form.label :year %>
+    <%= book_form.number_field :year %>
   </div>
 
   <div class="field">
-    <%= form.label :year %>
-    <%= form.number_field :year %>
+    <%= book_form.label :format %>
+    <%= book_form.text_field :format %>
   </div>
 
   <div class="field">
-    <%= form.label :format %>
-    <%= form.number_field :format %>
+    <%= book_form.label :isbn %>
+    <%= book_form.text_field :isbn %>
   </div>
 
   <div class="field">
-    <%= form.label :isbn %>
-    <%= form.text_field :isbn %>
+    <%= book_form.label :volume %>
+    <%= book_form.number_field :volume %>
   </div>
 
   <div class="field">
-    <%= form.label :volume %>
-    <%= form.number_field :volume %>
+    <%= book_form.label :volumes %>
+    <%= book_form.number_field :volumes %>
   </div>
 
   <div class="field">
-    <%= form.label :volumes %>
-    <%= form.number_field :volumes %>
+    <%= book_form.label :price %>
+    <%= book_form.text_field :price %>
   </div>
 
   <div class="field">
-    <%= form.label :price %>
-    <%= form.text_field :price %>
+    <%= book_form.label :is_new %>
+    <%= book_form.check_box :is_new %>
   </div>
 
   <div class="field">
-    <%= form.label :is_new %>
-    <%= form.check_box :is_new %>
+    <%= book_form.label :condition %>
+    <%= book_form.number_field :condition %>
   </div>
 
   <div class="field">
-    <%= form.label :condition %>
-    <%= form.number_field :condition %>
+    <%= book_form.label :publisher %>
+    <%= book_form.text_field :publisher %>
   </div>
 
   <div class="field">
-    <%= form.label :publisher_id %>
-    <%= form.number_field :publisher_id %>
+    <%= book_form.label :serie %>
+    <%= book_form.text_field :serie %>
   </div>
 
   <div class="field">
-    <%= form.label :serie_id %>
-    <%= form.number_field :serie_id %>
+    <%= book_form.label :language %>
+    <%= book_form.text_field :language %>
   </div>
 
   <div class="field">
-    <%= form.label :language_id %>
-    <%= form.number_field :language_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :shelf %>
-    <%= form.text_field :shelf %>
+    <%= book_form.label :shelf %>
+    <%= book_form.text_field :shelf %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= book_form.submit %>
   </div>
 <% end %>

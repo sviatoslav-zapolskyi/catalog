@@ -11,6 +11,31 @@
 </p>
 
 <p>
+  <strong>Works:</strong>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">title</th>
+      <th scope="col">authors</th>
+      <th scope="col">interpreters</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @book.works.each_with_index do |work, row| %>
+      <tr>
+        <th scope="row"><%= row %></th>
+        <td><%= work.title %></td>
+        <td><%= work.authors.map(&:name).join('; ') %></td>
+        <td><%= work.interpreters.map(&:name).join('; ') %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</p>
+
+
+<p>
   <strong>Pages:</strong>
   <%= @book.pages %>
 </p>
@@ -22,7 +47,7 @@
 
 <p>
   <strong>Format:</strong>
-  <%= @book.format %>
+  <%= @book.format.name if @book.format %>
 </p>
 
 <p>
@@ -57,17 +82,17 @@
 
 <p>
   <strong>Publisher:</strong>
-  <%= @book.publisher_id %>
+  <%= @book.publisher.name if @book.publisher %>
 </p>
 
 <p>
   <strong>Serie:</strong>
-  <%= @book.serie_id %>
+  <%= @book.serie.name if @book.serie %>
 </p>
 
 <p>
   <strong>Language:</strong>
-  <%= @book.language_id %>
+  <%= @book.language.name if @book.language %>
 </p>
 
 <p>

@@ -6,8 +6,8 @@ document.addEventListener("turbolinks:load", function () {
             return "/search.json?q=" + phrase;
         },
         categories: [{
-            listLocation: "movies",
-            header: "<strong>Movies</strong>"
+            listLocation: "books",
+            header: "<strong>Books</strong>"
         }],
         list: {
             onChooseEvent: function () {
