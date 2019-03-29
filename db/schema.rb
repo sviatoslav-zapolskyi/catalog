@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_23_180903) do
+ActiveRecord::Schema.define(version: 2019_03_24_104609) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 2019_03_23_180903) do
     t.string "title"
     t.integer "pages"
     t.integer "year"
-    t.integer "format"
+    t.integer "format_id"
     t.string "isbn"
     t.integer "volume"
     t.integer "volumes"
@@ -68,6 +68,12 @@ ActiveRecord::Schema.define(version: 2019_03_23_180903) do
   create_table "books_works", id: false, force: :cascade do |t|
     t.integer "book_id", null: false
     t.integer "work_id", null: false
+  end
+
+  create_table "formats", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "interpreters", force: :cascade do |t|
