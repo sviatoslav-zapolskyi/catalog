@@ -15,6 +15,7 @@ class BooksController < ApplicationController
   # GET /books/new
   def new
     @book = Book.new
+    @book.works << Work.new
   end
 
   # GET /books/1/edit
@@ -26,7 +27,7 @@ class BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
     @book.hash_id= new_hash_id
-    @book.works << create_works
+    @book.works << update_works
 
     respond_to do |format|
       if @book.save
@@ -42,6 +43,7 @@ class BooksController < ApplicationController
   # PATCH/PUT /books/1
   # PATCH/PUT /books/1.json
   def update
+    update_works
     respond_to do |format|
       if @book.update(book_params)
         format.html { redirect_to @book, notice: 'Book was successfully updated.' }
@@ -71,16 +73,20 @@ class BooksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_params
-      params.require(:book).permit(:title, :pages, :year, :format, :isbn, :volume, :volumes, :price, :is_new, :condition, :publisher, :serie, :language, :shelf)
+      params.require(:book).permit(:title, :pages, :year, { format: [:name] }, :isbn, :volume, :volumes, :price, :is_new, :condition, { publisher: [:name] }, { serie: [:name] }, { language: [:name] }, :shelf)
     end
 
   def works_params
-    params.require(:book).permit({ works: [:title, :authors, :interpreters] })[:works]
+    params.require(:book).permit({ works: [:id, :title, :authors, :interpreters] })[:works]
   end
 
-  def create_works
-    works_params.map do |work_params|
-      Work.create work_params
+  def update_works
+    works_params.map do |params|
+      if params[:id].empty?
+        Work.create params
+      else
+        Work.find(params[:id]).update(params)
+      end
     end
   end
 

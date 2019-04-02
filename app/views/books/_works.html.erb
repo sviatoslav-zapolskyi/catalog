@@ -1,0 +1,24 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th style="display:none;">id</th>
+    <th scope="col">title</th>
+    <th scope="col">authors</th>
+    <th scope="col">interpreters</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <% @book.works.each_with_index do |work, row| %>
+    <tr>
+      <td scope="row"><%= row + 1 %></td>
+      <td style="display:none;"><%= text_field_tag "book[works][][id]", work.id %></td>
+      <td><%= text_field_tag "book[works][][title]", work.title %></td>
+      <td><%= text_field_tag "book[works][][authors]", work.authors.map(&:name).join('; '), class: "autocomplete_author", id: "author_#{row}" %></td>
+      <td><%= text_field_tag "book[works][][interpreters]", work.interpreters.map(&:name).join('; '), class: "autocomplete_interpreter", id: "interpreter_#{row}" %></td>
+    </tr>
+  <% end %>
+
+  </tbody>
+</table>

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'books#index'
   get 'main/search'
   get 'main/autocomplete'
   resources :books

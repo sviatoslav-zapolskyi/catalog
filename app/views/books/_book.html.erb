@@ -11,32 +11,7 @@
     </div>
   <% end %>
 
-  <table class="table">
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">title</th>
-      <th scope="col">authors</th>
-      <th scope="col">interpreters</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td><%= text_field_tag "book[works][][title]" %></td>
-      <td><%= text_field_tag "book[works][][authors]", '', class: "autocomplete_author", id: "author_1" %></td>
-
-      <td><%= text_field_tag "book[works][][interpreters]", '', class: "autocomplete_interpreter", id: "interpreter_1" %></td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td><%= text_field_tag "book[works][][title]" %></td>
-      <td><%= text_field_tag "book[works][][authors]", '', class: "autocomplete_author", id: "author_2" %></td>
-      <td><%= text_field_tag "book[works][][interpreters]", '', class: "autocomplete_interpreter", id: "interpreter_2" %></td>
-    </tr>
-    </tbody>
-  </table>
-
+  <%= render 'works', book: @book %>
 
   <div class="field">
     <%= book_form.label :title %>
@@ -55,7 +30,7 @@
 
   <div class="field">
     <%= book_form.label :format %>
-    <%= book_form.text_field :format %>
+    <%= text_field_tag "book[format][name]", (@book.format.name if @book.format) %>
   </div>
 
   <div class="field">
@@ -90,17 +65,17 @@
 
   <div class="field">
     <%= book_form.label :publisher %>
-    <%= book_form.text_field :publisher %>
+    <%= text_field_tag "book[publisher][name]", (@book.publisher.name if @book.publisher) %>
   </div>
 
   <div class="field">
     <%= book_form.label :serie %>
-    <%= book_form.text_field :serie %>
+    <%= text_field_tag "book[serie][name]", (@book.serie.name if @book.serie) %>
   </div>
 
   <div class="field">
     <%= book_form.label :language %>
-    <%= book_form.text_field :language %>
+    <%= text_field_tag "book[language][name]", (@book.language.name if @book.language) %>
   </div>
 
   <div class="field">

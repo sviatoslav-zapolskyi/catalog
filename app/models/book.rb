@@ -1,4 +1,6 @@
 class Book < ApplicationRecord
+  include RansackObject
+
   has_many_attached :images
 
   belongs_to :publisher, optional: true
@@ -12,27 +14,27 @@ class Book < ApplicationRecord
     hash_id
   end
 
-  def publisher=(value)
-    publisher = Publisher.find_by name: value
-    publisher = Publisher.create(name: value) unless publisher
+  def publisher=(params)
+    publisher = Publisher.find_by name: params[:name]
+    publisher = Publisher.create(params) unless publisher
     super(publisher)
   end
 
-  def serie=(value)
-    serie = Serie.find_by name: value
-    serie = Serie.create(name: value) unless serie
+  def serie=(params)
+    serie = Serie.find_by name: params[:name]
+    serie = Serie.create(params) unless serie
     super(serie)
   end
 
-  def language=(value)
-    language = Language.find_by name: value
-    language = Language.create(name: value) unless language
+  def language=(params)
+    language = Language.find_by name: params[:name]
+    language = Language.create(params) unless language
     super(language)
   end
 
-  def format=(value)
-    format = Format.find_by name: value
-    format = Format.create(name: value) unless format
+  def format=(params)
+    format = Format.find_by name: params[:name]
+    format = Format.create(params) unless format
     super(format)
   end
 

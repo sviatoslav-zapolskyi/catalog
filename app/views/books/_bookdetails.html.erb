@@ -1,0 +1,25 @@
+<p>
+  Format:
+  <%= text_field_tag "book[format][name]", @book.format.name %>
+</p>
+
+<p>
+  Publisher:
+  <%= text_field_tag "book[publisher][name]", @book.publisher.name %>
+</p>
+
+<p>
+  Serie:
+  <%= text_field_tag "book[serie][name]", @book.serie.name %>
+</p>
+
+<p>
+  Language:
+  <%= text_field_tag "book[language][name]", @book.language.name %>
+</p>
+
+
+<div class="field">
+  <%= book_form.label :isbn %>
+  <%= book_form.text_field :isbn %>
+</div>
