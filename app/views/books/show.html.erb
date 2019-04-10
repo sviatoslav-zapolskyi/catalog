@@ -104,5 +104,20 @@
   <%= @book.shelf %>
 </p>
 
+<p>
+  <strong>Circulation:</strong>
+  <%= @book.circulation %>
+</p>
+
+<p>
+  <strong>Descriprion:</strong>
+  <%= @book.descriprion %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= @book.quantity %>
+</p>
+
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'Back', books_path %>
