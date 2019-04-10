@@ -46,8 +46,8 @@
   </div>
 
   <div class="field">
-    <%= book_form.label :format %>
-    <%= text_field_tag "book[format][name]", (@book.format.name if @book.format) %>
+    <%= book_form.label :cover %>
+    <%= text_field_tag "book[format][cover]", (@book.format.cover if @book.format) %>
   </div>
 
   <div class="field">

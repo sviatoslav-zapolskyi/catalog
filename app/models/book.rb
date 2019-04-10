@@ -35,7 +35,7 @@ class Book < ApplicationRecord
   end
 
   def format=(params)
-    format = Format.find_by name: params[:name]
+    format = Format.find_by cover: params[:cover]
     format = Format.create(params) unless format
     super(format)
   end
