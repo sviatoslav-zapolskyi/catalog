@@ -28,7 +28,7 @@ class BooksTest < ApplicationSystemTestCase
     fill_in "Title", with: @book.title
     fill_in "Volume", with: @book.volume
     fill_in "Volumes", with: @book.volumes
-    fill_in "Year", with: @book.year
+    fill_in "Year Published", with: @book.year_published
     click_on "Create Book"
 
     assert_text "Book was successfully created"
@@ -53,7 +53,7 @@ class BooksTest < ApplicationSystemTestCase
     fill_in "Title", with: @book.title
     fill_in "Volume", with: @book.volume
     fill_in "Volumes", with: @book.volumes
-    fill_in "Year", with: @book.year
+    fill_in "Year Published", with: @book.year_published
     click_on "Update Book"
 
     assert_text "Book was successfully updated"

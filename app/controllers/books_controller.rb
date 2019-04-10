@@ -72,15 +72,15 @@ class BooksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_book
-      @book = Book.find_by hash_id: params[:id]
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_book
+    @book = Book.find_by hash_id: params[:id]
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def book_params
-      params.require(:book).permit(:title, :pages, :year, { format: [:name] }, :isbn, :volume, :volumes, :price, :is_new, :condition, { publisher: [:name] }, { serie: [:name] }, { language: [:name] }, :shelf, images:[])
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def book_params
+    params.require(:book).permit(:title, :pages, :year_published, { format: [:name] }, :isbn, :volume, :volumes, :price, :is_new, :condition, { publisher: [:name] }, { serie: [:name] }, { language: [:name] }, :shelf, images: [])
+  end
 
   def works_params
     params.require(:book).permit({ works: [:id, :title, :authors, :interpreters] })[:works]
@@ -91,7 +91,9 @@ class BooksController < ApplicationController
       if params[:id].empty?
         Work.create params
       else
-        Work.find(params[:id]).update(params)
+        work = Work.find(params[:id])
+        work.update(params)
+        work
       end
     end
   end

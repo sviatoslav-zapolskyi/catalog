@@ -4,7 +4,7 @@ one:
   hash_id: MyString
   title: MyString
   pages: 1
-  year: 1
+  year_published: 1
   format: 1
   isbn: MyString
   volume: 1
@@ -21,7 +21,7 @@ two:
   hash_id: MyString
   title: MyString
   pages: 1
-  year: 1
+  year_published: 1
   format: 1
   isbn: MyString
   volume: 1

@@ -43,8 +43,6 @@ class Book < ApplicationRecord
   private
 
   def image_type
-    errors.add(:images, 'are missing!') unless images.attached?
-
     images.each do |image|
       errors.add(:image, 'needs to be JPEG or PNG') unless image.content_type.in? %('image/jpeg image/jpg image/png')
     end

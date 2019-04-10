@@ -17,7 +17,7 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
 
   test "should create book" do
     assert_difference('Book.count') do
-      post books_url, params: { book: { condition: @book.condition, format: @book.format, hash_id: @book.hash_id, is_new: @book.is_new, isbn: @book.isbn, language_id: @book.language_id, pages: @book.pages, price: @book.price, publisher_id: @book.publisher_id, serie_id: @book.serie_id, shelf: @book.shelf, title: @book.title, volume: @book.volume, volumes: @book.volumes, year: @book.year } }
+      post books_url, params: { book: { condition: @book.condition, format: @book.format, hash_id: @book.hash_id, is_new: @book.is_new, isbn: @book.isbn, language_id: @book.language_id, pages: @book.pages, price: @book.price, publisher_id: @book.publisher_id, serie_id: @book.serie_id, shelf: @book.shelf, title: @book.title, volume: @book.volume, volumes: @book.volumes, year_published: @book.year_published } }
     end
 
     assert_redirected_to book_url(Book.last)
@@ -34,7 +34,7 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update book" do
-    patch book_url(@book), params: { book: { condition: @book.condition, format: @book.format, hash_id: @book.hash_id, is_new: @book.is_new, isbn: @book.isbn, language_id: @book.language_id, pages: @book.pages, price: @book.price, publisher_id: @book.publisher_id, serie_id: @book.serie_id, shelf: @book.shelf, title: @book.title, volume: @book.volume, volumes: @book.volumes, year: @book.year } }
+    patch book_url(@book), params: { book: { condition: @book.condition, format: @book.format, hash_id: @book.hash_id, is_new: @book.is_new, isbn: @book.isbn, language_id: @book.language_id, pages: @book.pages, price: @book.price, publisher_id: @book.publisher_id, serie_id: @book.serie_id, shelf: @book.shelf, title: @book.title, volume: @book.volume, volumes: @book.volumes, year_published: @book.year_published } }
     assert_redirected_to book_url(@book)
   end
 
