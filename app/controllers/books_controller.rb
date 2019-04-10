@@ -83,7 +83,7 @@ class BooksController < ApplicationController
   end
 
   def works_params
-    params.require(:book).permit({ works: [:id, :title, :authors, :interpreters] })[:works]
+    params.require(:book).permit({ works: [:id, :name, :authors, :interpreters] })[:works]
   end
 
   def update_works

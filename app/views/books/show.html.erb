@@ -20,7 +20,7 @@
     <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">title</th>
+      <th scope="col">name</th>
       <th scope="col">authors</th>
       <th scope="col">interpreters</th>
     </tr>
@@ -29,7 +29,7 @@
     <% @book.works.each_with_index do |work, row| %>
       <tr>
         <th scope="row"><%= row + 1 %></th>
-        <td><%= work.title %></td>
+        <td><%= work.name %></td>
         <td><%= work.authors.map(&:name).join('; ') %></td>
         <td><%= work.interpreters.map(&:name).join('; ') %></td>
       </tr>
