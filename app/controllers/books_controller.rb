@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :edit, :update, :destroy]
+  before_action :set_book, only: [:show, :edit, :update, :destroy, :delete_image_attachment]
 
   # GET /books
   # GET /books.json
@@ -65,6 +65,12 @@ class BooksController < ApplicationController
     end
   end
 
+  def delete_image_attachment
+    @image = ActiveStorage::Attachment.find(params[:format])
+    @image.purge
+    redirect_back(fallback_location: request.referer)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book
@@ -73,7 +79,7 @@ class BooksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_params
-      params.require(:book).permit(:title, :pages, :year, { format: [:name] }, :isbn, :volume, :volumes, :price, :is_new, :condition, { publisher: [:name] }, { serie: [:name] }, { language: [:name] }, :shelf)
+      params.require(:book).permit(:title, :pages, :year, { format: [:name] }, :isbn, :volume, :volumes, :price, :is_new, :condition, { publisher: [:name] }, { serie: [:name] }, { language: [:name] }, :shelf, images:[])
     end
 
   def works_params

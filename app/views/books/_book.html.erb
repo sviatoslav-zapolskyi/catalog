@@ -11,6 +11,23 @@
     </div>
   <% end %>
 
+  <div>
+    <% @book.images.each do |image| %>
+      <% if image.id %>
+        <%= image_tag image.variant(resize: '300x300').processed %>
+        <%= link_to 'Remove', delete_image_attachment_path(image),
+                    method: :delete,
+                    data: {confirm: 'Are you sure?'} %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= book_form.label :images %>
+    <%= book_form.file_field :images, multiple: true %>
+  </div>
+  </br>
+
   <%= render 'works', book: @book %>
 
   <div class="field">

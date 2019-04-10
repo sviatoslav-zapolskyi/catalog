@@ -10,6 +10,10 @@
   <%= @book.title %>
 </p>
 
+<% @book.images.each do |image| %>
+    <%= image_tag image.variant(resize: '300x300').processed %>
+<% end %>
+
 <p>
   <strong>Works:</strong>
   <table class="table">

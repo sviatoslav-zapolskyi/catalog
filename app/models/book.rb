@@ -10,6 +10,8 @@ class Book < ApplicationRecord
 
   has_and_belongs_to_many :works
 
+  validate :image_type
+
   def to_param # overridden
     hash_id
   end
@@ -38,5 +40,14 @@ class Book < ApplicationRecord
     super(format)
   end
 
-  attr_accessor :form_works
+  private
+
+  def image_type
+    errors.add(:images, 'are missing!') unless images.attached?
+
+    images.each do |image|
+      errors.add(:image, 'needs to be JPEG or PNG') unless image.content_type.in? %('image/jpeg image/jpg image/png')
+    end
+  end
+
 end
