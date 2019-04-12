@@ -12,6 +12,10 @@ class Book < ApplicationRecord
 
   validate :image_type
 
+  after_initialize do |book|
+    book.hash_id = new_hash_id unless book.hash_id
+  end
+
   def to_param # overridden
     hash_id
   end
@@ -41,6 +45,13 @@ class Book < ApplicationRecord
   end
 
   private
+
+  def new_hash_id
+    begin
+      hash_id = SecureRandom.hex(3)
+    end while Book.find_by hash_id: hash_id
+    hash_id
+  end
 
   def image_type
     images.each do |image|

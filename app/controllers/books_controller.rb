@@ -26,7 +26,6 @@ class BooksController < ApplicationController
   # POST /books.json
   def create
     @book = Book.new(book_params)
-    @book.hash_id= new_hash_id
     @book.works << update_works
 
     respond_to do |format|
@@ -96,12 +95,5 @@ class BooksController < ApplicationController
         work
       end
     end
-  end
-
-  def new_hash_id
-    begin
-      hash_id = SecureRandom.hex(3)
-    end while Book.find_by hash_id: hash_id
-    hash_id
   end
 end
