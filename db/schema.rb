@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_12_185859) do
+ActiveRecord::Schema.define(version: 2019_04_12_191506) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -56,7 +56,6 @@ ActiveRecord::Schema.define(version: 2019_04_12_185859) do
     t.string "price"
     t.boolean "is_new"
     t.integer "condition"
-    t.integer "publisher_id"
     t.integer "serie_id"
     t.integer "language_id"
     t.string "shelf"
@@ -66,6 +65,11 @@ ActiveRecord::Schema.define(version: 2019_04_12_185859) do
     t.string "description"
     t.integer "quantity"
     t.index ["hash_id"], name: "index_books_on_hash_id"
+  end
+
+  create_table "books_publishers", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "book_id", null: false
+    t.bigint "publisher_id", null: false
   end
 
   create_table "books_works", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

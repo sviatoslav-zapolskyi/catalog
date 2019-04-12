@@ -4,8 +4,8 @@
 </p>
 
 <p>
-  Publisher:
-  <%= text_field_tag "book[publisher][name]", @book.publisher.name %>
+  Publishers:
+  <%= text_field_tag "book[publishers][][name]", @book.publishers.first.name %>
 </p>
 
 <p>

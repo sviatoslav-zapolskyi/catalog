@@ -3,12 +3,12 @@ class Book < ApplicationRecord
 
   has_many_attached :images
 
-  belongs_to :publisher, optional: true
   belongs_to :serie, optional: true
   belongs_to :language, optional: true
   belongs_to :format, optional: true
 
   has_and_belongs_to_many :works
+  has_and_belongs_to_many :publishers
 
   validate :image_type
 
@@ -20,10 +20,13 @@ class Book < ApplicationRecord
     hash_id
   end
 
-  def publisher=(params)
-    publisher = Publisher.find_by name: params[:name]
-    publisher = Publisher.create(params) unless publisher
-    super(publisher)
+  def publishers=(params)
+    publishers = params.map do |p|
+      publisher = Publisher.find_by name: p[:name]
+      publisher = Publisher.create(p) unless publisher
+      publisher
+    end
+    super(publishers)
   end
 
   def serie=(params)

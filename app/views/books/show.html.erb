@@ -85,8 +85,8 @@
 </p>
 
 <p>
-  <strong>Publisher:</strong>
-  <%= @book.publisher.name if @book.publisher %>
+  <strong>Publishers:</strong>
+  <%= @book.publishers.map(&:name).join('; ') if @book.publishers.any? %>
 </p>
 
 <p>

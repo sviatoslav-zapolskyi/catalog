@@ -82,7 +82,7 @@
 
   <div class="field">
     <%= book_form.label :publisher %>
-    <%= text_field_tag "book[publisher][name]", (@book.publisher.name if @book.publisher) %>
+    <%= text_field_tag "book[publishers][][name]", (@book.publishers.first.name if @book.publishers.any?) %>
   </div>
 
   <div class="field">
