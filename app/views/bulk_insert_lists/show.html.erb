@@ -1,14 +1,24 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Hash:</strong>
-  <%= @bulk_insert_list.hash_id %>
-</p>
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">EAN13</th>
+  </tr>
+  </thead>
+  <tbody>
 
-<p>
-  <strong>Ean13:</strong>
-  <%= @bulk_insert_list.EAN13 %>
-</p>
+  <% @bulk_insert_list.EAN13.split('; ').each_with_index do |ean13, row| %>
+    <tr>
+      <td scope="row"><%= row + 1 %></td>
+      <td><%= ean13 %></td>
+    </tr>
+  <% end %>
+
+  </tbody>
+</table>
+
 
 <%= link_to 'Edit', edit_bulk_insert_list_path(@bulk_insert_list) %> |
 <%= link_to 'Back', bulk_insert_lists_path %>

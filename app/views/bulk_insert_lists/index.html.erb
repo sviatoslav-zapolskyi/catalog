@@ -2,6 +2,8 @@
 
 <h1>Bulk Insert Lists</h1>
 
+<%= render 'form', bulk_insert_list: @bulk_insert_list %>
+
 <table>
   <thead>
     <tr>
@@ -23,7 +25,3 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Bulk Insert List', new_bulk_insert_list_path %>

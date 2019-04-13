@@ -49,13 +49,6 @@ class Book < ApplicationRecord
 
   private
 
-  def new_hash_id
-    begin
-      hash_id = SecureRandom.hex(3)
-    end while Book.find_by hash_id: hash_id
-    hash_id
-  end
-
   def image_type
     images.each do |image|
       errors.add(:image, 'needs to be JPEG or PNG') unless image.content_type.in? %('image/jpeg image/jpg image/png')

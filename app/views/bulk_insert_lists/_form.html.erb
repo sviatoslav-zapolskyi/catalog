@@ -1,27 +1,25 @@
-<%= form_with(model: bulk_insert_list, local: true) do |form| %>
+<%= form_for @bulk_insert_list do |form| %>
   <% if bulk_insert_list.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(bulk_insert_list.errors.count, "error") %> prohibited this bulk_insert_list from being saved:</h2>
+      <h2><%= pluralize(bulk_insert_list.errors.count, "error") %> prohibited this bulk_insert_list from being
+        saved:</h2>
 
       <ul>
-      <% bulk_insert_list.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% bulk_insert_list.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
+  <div class="field" style="display:none;">
+    <%= form.label :hash_id %>
+    <%= form.text_field :hash_id %>
+  </div>
+
   <div class="field">
     <%= form.label :EAN13 %>
-    <%= form.text_area :EAN13 %>
-  </div>
-
-  <div class="field">
-    <%= form.label :csv %>
-    <%= form.file_field :csv %>
-  </div>
-
-  <div class="actions">
+    <%= form.file_field :EAN13 %>
     <%= form.submit %>
   </div>
 <% end %>
