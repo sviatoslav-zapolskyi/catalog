@@ -11,31 +11,31 @@
 </p>
 
 <% @book.images.each do |image| %>
-    <%= image_tag image.variant(resize: '300x300').processed %>
+  <%= image_tag image.variant(resize: '300x300').processed %>
 <% end %>
 
 <p>
   <strong>Works:</strong>
-  <table class="table">
-    <thead>
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">name</th>
+    <th scope="col">authors</th>
+    <th scope="col">interpreters</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @book.works.each_with_index do |work, row| %>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">name</th>
-      <th scope="col">authors</th>
-      <th scope="col">interpreters</th>
+      <th scope="row"><%= row + 1 %></th>
+      <td><%= work.name %></td>
+      <td><%= work.authors.map(&:name).join('; ') %></td>
+      <td><%= work.interpreters.map(&:name).join('; ') %></td>
     </tr>
-    </thead>
-    <tbody>
-    <% @book.works.each_with_index do |work, row| %>
-      <tr>
-        <th scope="row"><%= row + 1 %></th>
-        <td><%= work.name %></td>
-        <td><%= work.authors.map(&:name).join('; ') %></td>
-        <td><%= work.interpreters.map(&:name).join('; ') %></td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
+  <% end %>
+  </tbody>
+</table>
 </p>
 
 
@@ -59,15 +59,19 @@
   <%= @book.isbn %>
 </p>
 
-<p>
-  <strong>Volume:</strong>
-  <%= @book.volume %>
-</p>
+<% if @book.volume %>
+  <p>
+    <strong>Volume:</strong>
+    <%= @book.volume %>
+  </p>
+<% end %>
 
-<p>
-  <strong>Volumes:</strong>
-  <%= @book.volumes %>
-</p>
+<% if @book.volumes %>
+  <p>
+    <strong>Volumes:</strong>
+    <%= @book.volumes %>
+  </p>
+<% end %>
 
 <p>
   <strong>Price:</strong>
@@ -79,10 +83,12 @@
   <%= @book.is_new %>
 </p>
 
-<p>
-  <strong>Condition:</strong>
-  <%= @book.condition %>
-</p>
+<% if @book.condition %>
+  <p>
+    <strong>Condition:</strong>
+    <%= @book.condition %>
+  </p>
+<% end %>
 
 <p>
   <strong>Publishers:</strong>

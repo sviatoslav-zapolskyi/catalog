@@ -17,7 +17,7 @@
         <%= image_tag image.variant(resize: '300x300').processed %>
         <%= link_to 'Remove', delete_image_attachment_path(image),
                     method: :delete,
-                    data: {confirm: 'Are you sure?'} %>
+                    data: { confirm: 'Are you sure?' } %>
       <% end %>
     <% end %>
   </div>
