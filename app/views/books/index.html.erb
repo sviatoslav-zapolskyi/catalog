@@ -5,6 +5,7 @@
 <table>
   <thead>
   <tr>
+    <th>image</th>
     <th>Hash</th>
     <th>Title</th>
     <th>Authors</th>
@@ -19,6 +20,7 @@
   <tbody>
   <% @books.each do |book| %>
     <tr>
+      <td><%= image_tag book.images.first.variant(resize: '100x100').processed %></td>
       <td><%= book.hash_id %></td>
       <td><%= book.title %></td>
       <td><%= book.works.map { |w| w.authors.map(&:name) }.flatten.uniq.join(', ') %></td>
