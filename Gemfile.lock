@@ -235,7 +235,7 @@ DEPENDENCIES
   rails (~> 5.2.2, >= 5.2.2.1)
   ransack (~> 2.1, >= 2.1.1)
   sass-rails (~> 5.0)
-  selenium-webdriver
+  selenium-webdriver (~> 3.141)
   spring
   spring-watcher-listen (~> 2.0.0)
   turbolinks (~> 5)

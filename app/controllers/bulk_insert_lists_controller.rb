@@ -1,7 +1,13 @@
 require 'csv'
+require 'scraper'
 
 class BulkInsertListsController < ApplicationController
   before_action :set_bulk_insert_list, only: [:show, :edit, :update, :destroy]
+
+  def initialize
+    super # this calls ActionController::Base initialize
+    @scrap = Scraper.new
+  end
 
   # GET /bulk_insert_lists
   # GET /bulk_insert_lists.json
@@ -35,6 +41,11 @@ class BulkInsertListsController < ApplicationController
 
     respond_to do |format|
       if @bulk_insert_list.save
+
+        @bulk_insert_list.EAN13.split('; ').each do |ean13|
+          @scrap.from_fantlab ean13 unless Book.find_by EAN13: ean13
+        end
+
         format.html { redirect_to @bulk_insert_list, notice: 'Bulk insert list was successfully created.' }
         format.json { render :show, status: :created, location: @bulk_insert_list }
       else
