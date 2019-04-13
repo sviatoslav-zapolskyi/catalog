@@ -1,0 +1,2 @@
+module BulkInsertListsHelper
+end

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Hash:</strong>
+  <%= @bulk_insert_list.hash_id %>
+</p>
+
+<p>
+  <strong>Ean13:</strong>
+  <%= @bulk_insert_list.EAN13 %>
+</p>
+
+<%= link_to 'Edit', edit_bulk_insert_list_path(@bulk_insert_list) %> |
+<%= link_to 'Back', bulk_insert_lists_path %>

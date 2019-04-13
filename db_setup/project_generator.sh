@@ -109,3 +109,7 @@ rails g migration rename_work_type_to_work_major_form
 
 rails g migration add_language_to_works language:string
 rails g migration change_abstract_to_be_text_in_works
+
+rails g scaffold bulk_insert_list\
+ hash_id:string:index\
+ EAN13:text

@@ -1,0 +1,2 @@
+class BulkInsertList < ApplicationRecord
+end

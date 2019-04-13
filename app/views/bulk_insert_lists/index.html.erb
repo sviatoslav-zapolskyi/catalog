@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Bulk Insert Lists</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Hash</th>
+      <th>Ean13</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bulk_insert_lists.each do |bulk_insert_list| %>
+      <tr>
+        <td><%= bulk_insert_list.hash_id %></td>
+        <td><%= bulk_insert_list.EAN13 %></td>
+        <td><%= link_to 'Show', bulk_insert_list %></td>
+        <td><%= link_to 'Edit', edit_bulk_insert_list_path(bulk_insert_list) %></td>
+        <td><%= link_to 'Destroy', bulk_insert_list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Bulk Insert List', new_bulk_insert_list_path %>

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :bulk_insert_lists
   root 'books#index'
   get 'main/search'
   get 'main/autocomplete'
