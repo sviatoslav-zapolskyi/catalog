@@ -13,6 +13,9 @@ class BulkInsertListsController < ApplicationController
   # GET /bulk_insert_lists/1
   # GET /bulk_insert_lists/1.json
   def show
+    @bulk_inserted_books = @bulk_insert_list.EAN13.split('; ').map do |ean13|
+      Book.find_by EAN13: ean13
+    end
   end
 
   # GET /bulk_insert_lists/new

@@ -113,3 +113,6 @@ rails g migration change_abstract_to_be_text_in_works
 rails g scaffold bulk_insert_list\
  hash_id:string:index\
  EAN13:text
+
+rails g migration add_EAN13_to_books EAN13:string
+
