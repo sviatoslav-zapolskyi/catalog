@@ -19,8 +19,26 @@ class BulkInsertListsController < ApplicationController
   # GET /bulk_insert_lists/1
   # GET /bulk_insert_lists/1.json
   def show
-    @bulk_inserted_books = @bulk_insert_list.EAN13.split('; ').map do |ean13|
-      Book.find_by EAN13: ean13
+
+    ean13s = @bulk_insert_list.EAN13.split('; ')
+
+    missed_ean13s = ean13s.select do |ean13|
+      Book.find_by(EAN13: ean13).nil?
+    end
+
+    if missed_ean13s.any?
+      import = ImportBook.new
+      import.ean13s =missed_ean13s
+      @job = Delayed::Job.enqueue import
+    else
+      @books = ean13s.map do |ean13|
+        Book.find_by(EAN13: ean13)
+      end
+    end
+
+    respond_to do |format|
+      format.js { render json: @books }
+      format.html
     end
   end
 
@@ -41,11 +59,6 @@ class BulkInsertListsController < ApplicationController
 
     respond_to do |format|
       if @bulk_insert_list.save
-
-        @bulk_insert_list.EAN13.split('; ').each do |ean13|
-          @scrap.from_fantlab ean13 unless Book.find_by EAN13: ean13
-        end
-
         format.html { redirect_to @bulk_insert_list, notice: 'Bulk insert list was successfully created.' }
         format.json { render :show, status: :created, location: @bulk_insert_list }
       else
@@ -80,13 +93,14 @@ class BulkInsertListsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_bulk_insert_list
-      @bulk_insert_list = BulkInsertList.find_by hash_id: params[:id]
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_bulk_insert_list
+    @bulk_insert_list = BulkInsertList.find_by hash_id: params[:id]
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def bulk_insert_list_params
-      params.require(:bulk_insert_list).permit(:hash_id, :EAN13)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def bulk_insert_list_params
+    params.require(:bulk_insert_list).permit(:hash_id, :EAN13)
+  end
+
 end

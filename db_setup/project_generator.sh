@@ -116,3 +116,7 @@ rails g scaffold bulk_insert_list\
 
 rails g migration add_EAN13_to_books EAN13:string
 
+rails generate delayed_job:active_record
+rails generate progress_job:install
+rake db:migrate
+

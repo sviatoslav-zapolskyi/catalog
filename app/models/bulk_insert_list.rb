@@ -11,7 +11,7 @@ class BulkInsertList < ApplicationRecord
   end
 
   def EAN13=(param)
-    csv = CSV.read(param.tempfile).flatten
+    csv = CSV.read(param.tempfile).flatten.compact.reject(&:empty?)
     csv.delete('ISBN Code')
     csv.delete(' ')
     super(csv.join('; '))

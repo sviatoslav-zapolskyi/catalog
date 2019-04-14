@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   get :search, controller: :main
   get :autocomplete, controller: :main
   delete :delete_image_attachment, controller: :books
+  get :upload, controller: :bulk_insert_lists
 end
