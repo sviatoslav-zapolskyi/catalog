@@ -15,7 +15,9 @@ services:
   tty: true
  worker:
   build: .
-  command: rake jobs:work
+  command: >
+    bash -c "rake db:migrate &&
+             rake jobs:work"
   volumes:
    - .:/app
   environment:
