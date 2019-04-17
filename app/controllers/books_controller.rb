@@ -4,7 +4,7 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    @books = Book.all
+    @books = Book.where(approved: true).all
   end
 
   # GET /books/1
@@ -78,7 +78,7 @@ class BooksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def book_params
-    params.require(:book).permit(:title, :pages, :year_published, { format: [:cover] }, :isbn, :volume, :volumes, :price, :is_new, :condition, { publishers: [:name] }, { serie: [:name] }, { language: [:name] }, :shelf, { images: [] }, :circulation, :description, :quantity)
+    params.require(:book).permit(:title, :pages, :year_published, { format: [:cover] }, :isbn, :volume, :volumes, :price, :is_new, :condition, { publishers: [:name] }, { serie: [:name] }, { language: [:name] }, :shelf, { images: [] }, :circulation, :description, :quantity, :approved)
   end
 
   def works_params

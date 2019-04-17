@@ -28,6 +28,11 @@
   </div>
   </br>
 
+  <div class="field">
+    <%= book_form.label :approved %>
+    <%= book_form.check_box :approved %>
+  </div>
+
   <%= render 'works', book: @book %>
 
   <div class="field">

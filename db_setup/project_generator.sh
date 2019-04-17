@@ -120,3 +120,4 @@ rails generate delayed_job:active_record
 rails generate progress_job:install
 rake db:migrate
 
+rails g migration add_approved_to_books approved:boolean
