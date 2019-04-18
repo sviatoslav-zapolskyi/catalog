@@ -25,7 +25,6 @@
       <td><%= book.price %></td>
       <td><%= book.publishers.map(&:name).join('; ') if book.publishers.any? %></td>
       <td><%= book.serie.name if book.serie %></td>
-      <td><%= book.language.name if book.language %></td>
       <td><%= book.shelf %></td>
       <td><%= link_to 'Show', book %></td>
       <td><%= link_to 'Edit', edit_book_path(book) %></td>

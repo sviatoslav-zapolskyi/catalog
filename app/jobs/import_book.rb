@@ -7,7 +7,7 @@ class ImportBook < ProgressJob::Base
     update_stage('Initializing')
     scrap = Scraper.new
 
-    update_stage('Importing users...')
+    update_stage('Importing books...')
     update_progress_max(ean13s.count)
 
     ean13s.each do |ean13|

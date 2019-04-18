@@ -23,6 +23,7 @@
     <th scope="col">name</th>
     <th scope="col">authors</th>
     <th scope="col">interpreters</th>
+    <th scope="col">abstract</th>
   </tr>
   </thead>
   <tbody>
@@ -32,6 +33,7 @@
       <td><%= work.name %></td>
       <td><%= work.authors.map(&:name).join('; ') %></td>
       <td><%= work.interpreters.map(&:name).join('; ') %></td>
+      <td><%= work.abstract %></td>
     </tr>
   <% end %>
   </tbody>
@@ -125,5 +127,4 @@
   <%= @book.quantity %>
 </p>
 
-<%= link_to 'Edit', edit_book_path(@book) %> |
-<%= link_to 'Back', books_path %>
+<%= link_to 'Edit', edit_book_path(@book) %>
