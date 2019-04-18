@@ -6,8 +6,7 @@ RUN echo "deb http://security.debian.org/ stretch/updates main" > /etc/apt/sourc
        && apt-get install -y firefox-esr
 
 RUN VERSION='v0.24.0' \
-       && curl -L https://github.com/mozilla/geckodriver/releases/download/${VERSION}/geckodriver-${VERSION}-linux64.tar.gz | tar xz -C /usr/local/bin \
-       && apt-get purge -y ca-certificates curl
+       && curl -L https://github.com/mozilla/geckodriver/releases/download/${VERSION}/geckodriver-${VERSION}-linux64.tar.gz | tar xz -C /usr/local/bin
 
 # https://github.com/nodesource/distributions#installation-instructions
 RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - \

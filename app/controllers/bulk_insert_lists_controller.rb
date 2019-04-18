@@ -4,11 +4,6 @@ require 'scraper'
 class BulkInsertListsController < ApplicationController
   before_action :set_bulk_insert_list, only: [:show, :edit, :update, :destroy]
 
-  def initialize
-    super # this calls ActionController::Base initialize
-    @scrap = Scraper.new
-  end
-
   # GET /bulk_insert_lists
   # GET /bulk_insert_lists.json
   def index
