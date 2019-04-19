@@ -15,11 +15,11 @@ class Scraper
     @driver.manage.timeouts.implicit_wait = 3
   end
 
-  def from_fantlab(ean13)
-    fantlab_search(ean13)
+  def from_fantlab(isbn)
+    return unless fantlab_search(isbn)
 
     book_params = {
-        EAN13: ean13,
+        EAN13: isbn,
         title: driver.find_element(xpath: "//*[@itemprop='name']").text,
         pages: driver.find_element(xpath: "//*[@itemprop='numberOfPages']").text,
         year_published: driver.find_element(xpath: "//*[@itemprop='copyrightYear']").text,
@@ -82,18 +82,28 @@ class Scraper
 
   private
 
-  def fantlab_search(ean13)
-    print "search #{ean13}"
-    driver.get("https://fantlab.ru/searchmain?searchstr=#{ean13}")
-
+  def fantlab_search(isbn)
+    print "search #{isbn}"
+    driver.get("https://fantlab.ru/searchmain?searchstr=#{isbn}")
     found_books = driver.find_elements(xpath: "//div[@class='one']/table/tbody/tr/td/a")
-    if found_books.empty?
-      print "; #{isbn13_to_isbn10 ean13}"
-      driver.get("https://fantlab.ru/searchmain?searchstr=#{isbn13_to_isbn10 ean13}")
+
+    if found_books.empty? && isbn.size == 13
+      isbn10 = isbn13_to_isbn10 isbn
+      print "; #{isbn10}"
+      driver.get("https://fantlab.ru/searchmain?searchstr=#{isbn10}")
       found_books = driver.find_elements(xpath: "//div[@class='one']/table/tbody/tr/td/a")
     end
 
-    found_books.first.click
+    if found_books.any?
+      print " found."
+      found_books.first.click
+      true
+    else
+      puts ' not found!'
+      Book.create EAN13: isbn, isbn: isbn, title: 'Не найдено на fantlab'
+      false
+    end
+
   end
 
 end

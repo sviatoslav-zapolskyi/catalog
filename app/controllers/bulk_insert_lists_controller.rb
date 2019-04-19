@@ -15,18 +15,18 @@ class BulkInsertListsController < ApplicationController
   # GET /bulk_insert_lists/1.json
   def show
 
-    ean13s = @bulk_insert_list.EAN13.split('; ')
+    isbns = @bulk_insert_list.EAN13.split('; ')
 
-    missed_ean13s = ean13s.select do |ean13|
-      Book.find_by(EAN13: ean13).nil?
+    missed_isbns = isbns.select do |isbn|
+      Book.find_by(EAN13: isbn).nil?
     end
 
-    if missed_ean13s.any?
+    if missed_isbns.any?
       import = ImportBook.new
-      import.ean13s =missed_ean13s
+      import.isbns =missed_isbns
       @job = Delayed::Job.enqueue import
     else
-      @books = ean13s.map do |ean13|
+      @books = isbns.map do |ean13|
         Book.find_by(EAN13: ean13)
       end
     end

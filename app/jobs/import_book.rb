@@ -1,5 +1,5 @@
 class ImportBook < ProgressJob::Base
-  attr_accessor :ean13s
+  attr_accessor :isbns
 
   def perform
     require 'scraper'
@@ -8,10 +8,10 @@ class ImportBook < ProgressJob::Base
     scrap = Scraper.new
 
     update_stage('Importing books...')
-    update_progress_max(ean13s.count)
+    update_progress_max(isbns.count)
 
-    ean13s.each do |ean13|
-      scrap.from_fantlab ean13 unless Book.find_by(EAN13: ean13)
+    isbns.each do |isbn|
+      scrap.from_fantlab isbn unless Book.find_by(EAN13: isbn)
       update_progress
     end
 
