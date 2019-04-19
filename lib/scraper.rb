@@ -9,6 +9,7 @@ class Scraper
   attr_accessor :driver
 
   def initialize
+    puts "Selenium::WebDriver Init"
     options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
     @driver = Selenium::WebDriver.for(:firefox, options: options)
     @driver.manage.timeouts.implicit_wait = 3
@@ -72,6 +73,11 @@ class Scraper
 
     puts "saved!"
 
+  end
+
+  def quite
+    puts "Selenium WebDriver Destroy"
+    @driver.quit
   end
 
   private

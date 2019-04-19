@@ -14,5 +14,7 @@ class ImportBook < ProgressJob::Base
       scrap.from_fantlab ean13 unless Book.find_by(EAN13: ean13)
       update_progress
     end
+
+    scrap.quite
   end
 end
