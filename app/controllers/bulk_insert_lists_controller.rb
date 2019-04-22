@@ -26,9 +26,7 @@ class BulkInsertListsController < ApplicationController
       import.isbns =missed_isbns
       @job = Delayed::Job.enqueue import
     else
-      @books = isbns.map do |ean13|
-        Book.find_by(EAN13: ean13)
-      end
+      @pagy, @books = pagy(Book.where(EAN13: isbns), items: 10)
     end
 
     respond_to do |format|
