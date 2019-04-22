@@ -130,5 +130,6 @@ rails g migration magrate_book_isbn_to_isbn_value
 
 rails g migration remove_isbn_from_books isbn:string
 rails g migration remove_ean13_from_books ean13:string
-
 rails g migration delete_dashes_from_bulk_inserts_ean13
+
+rails g migration replace_book_approved_null_with_false
