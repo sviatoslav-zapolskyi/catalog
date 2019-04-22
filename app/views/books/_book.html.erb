@@ -14,7 +14,7 @@
   <div>
     <% @book.images.each do |image| %>
       <% if image.id %>
-        <%= image_tag image.variant(resize: '300x300').processed %>
+        <%= image_tag image.variant(resize: '300x300', auto_orient: false).processed %>
         <%= link_to 'Remove', delete_image_attachment_path(image),
                     method: :delete,
                     data: { confirm: 'Are you sure?' } %>

@@ -17,7 +17,7 @@
   <tbody>
   <% books.each do |book| %>
     <tr>
-      <td><%= link_to (book.images.attached? ? image_tag(book.images.first.variant(resize: '100x100').processed) : 'no image'), book %></td>
+      <td><%= link_to (book.images.attached? ? image_tag(book.images.first.variant(resize: '100x100', auto_orient: false).processed) : 'no image'), book %></td>
       <td style="text-align: center; vertical-align: middle;"><%= check_box_tag '', '', book.approved, disabled: 'disabled' %></td>
       <td><%= book.EAN13 %></td>
       <td><%= book.title %></td>
