@@ -11,7 +11,7 @@
 </p>
 
 <% @book.images.each do |image| %>
-  <%= link_to image_tag(image.variant(resize: '300x300').processed), image %>
+  <%= link_to image_tag(image.variant(resize: '300x300', auto_orient: false).processed), image %>
 <% end %>
 
 <p>
