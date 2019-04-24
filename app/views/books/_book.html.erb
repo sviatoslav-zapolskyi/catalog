@@ -56,8 +56,8 @@
   </div>
 
   <div class="field">
-    <%= book_form.label :isbn %>
-    <%= book_form.text_field :isbn %>
+    <%= book_form.label :isbns %>
+    <%= text_field_tag "book[isbns]", book.isbns.map(&:value).join('; ') %>
   </div>
 
   <div class="field">

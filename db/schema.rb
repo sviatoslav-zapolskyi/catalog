@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_24_051816) do
+ActiveRecord::Schema.define(version: 2019_04_24_185431) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -50,7 +50,6 @@ ActiveRecord::Schema.define(version: 2019_04_24_051816) do
     t.integer "pages"
     t.integer "year_published"
     t.integer "format_id"
-    t.string "isbn"
     t.integer "volume"
     t.integer "volumes"
     t.string "price"
@@ -64,7 +63,6 @@ ActiveRecord::Schema.define(version: 2019_04_24_051816) do
     t.string "circulation"
     t.string "description"
     t.integer "quantity"
-    t.string "EAN13"
     t.boolean "approved"
     t.index ["hash_id"], name: "index_books_on_hash_id"
   end

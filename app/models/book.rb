@@ -49,6 +49,18 @@ class Book < ApplicationRecord
     super(format)
   end
 
+  def isbns=(values)
+    values = values.delete('ISBN').delete(' ').delete('-')
+    splitted = values.split(',')
+    splitted = values.split(';') if splitted.count == 1
+
+    super(splitted.map do |value|
+      isbn = Isbn.find_by value: value
+      isbn = Isbn.create(value: value) unless isbn
+      isbn
+    end)
+  end
+
   private
 
   def image_type

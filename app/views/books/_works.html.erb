@@ -6,6 +6,7 @@
     <th scope="col">name</th>
     <th scope="col">authors</th>
     <th scope="col">interpreters</th>
+    <th scope="col">abstract</th>
   </tr>
   </thead>
   <tbody>
@@ -17,6 +18,7 @@
       <td><%= text_field_tag "book[works][][name]", work.name %></td>
       <td><%= text_field_tag "book[works][][authors]", work.authors.map(&:name).join('; '), class: "autocomplete_author", id: "author_#{row}" %></td>
       <td><%= text_field_tag "book[works][][interpreters]", work.interpreters.map(&:name).join('; '), class: "autocomplete_interpreter", id: "interpreter_#{row}" %></td>
+      <td><%= text_area_tag "book[works][][abstract]", work.abstract %></td>
     </tr>
   <% end %>
 

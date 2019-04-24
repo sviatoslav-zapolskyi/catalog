@@ -1,6 +1,5 @@
 require 'selenium-webdriver'
 require 'open-uri'
-require 'csv'
 
 require_relative 'isbn'
 
@@ -19,11 +18,10 @@ class Scraper
     return unless fantlab_search(isbn)
 
     book_params = {
-        EAN13: isbn,
         title: (find_element_by(itemprop: 'name').text if any_elements itemprop: 'name'),
         pages: (find_element_by(itemprop: 'numberOfPages').text if any_elements itemprop: 'numberOfPages'),
         year_published: (find_element_by(itemprop: 'copyrightYear').text if any_elements itemprop: 'copyrightYear'),
-        isbn: (find_element_by(itemprop: 'isbn').text if any_elements itemprop: 'isbn'),
+        isbns: (find_element_by(itemprop: 'isbn').text if any_elements itemprop: 'isbn'),
         circulation: (find_element_by(id: 'count').text if any_elements id: 'count'),
         description: (find_element_by(id: 'descript').text if any_elements id: 'descript'),
 
@@ -42,6 +40,11 @@ class Scraper
     book = Book.new(book_params)
 
     print " : #{book_params[:title]} ... "
+
+    if Isbn.where(value: book.isbns.map(&:value)).any?
+      puts 'duplicate!'
+      return
+    end
 
     find_elements_by(itemprop: 'image').map { |i| i.attribute('src') }.each do |url|
       downloaded_image = open(url)
@@ -138,6 +141,11 @@ class Scraper
       print "; #{isbn10}"
       driver.get("https://fantlab.ru/searchmain?searchstr=#{isbn10}")
       found_books = driver.find_elements(xpath: "//div[@class='one']/table/tbody/tr/td/a")
+
+      BulkInsertList.find_each do |bulk|
+        bulk.EAN13.gsub! isbn, isbn10
+        bulk.save
+      end if found_books.any?
     end
 
     if found_books.any?
@@ -146,7 +154,7 @@ class Scraper
       true
     else
       puts ' not found!'
-      Book.create EAN13: isbn, isbn: isbn, title: 'Не найдено на fantlab'
+      Book.create isbns: isbn, title: 'Не найдено на fantlab'
       false
     end
 
