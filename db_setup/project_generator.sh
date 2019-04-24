@@ -125,3 +125,5 @@ rails g migration add_approved_to_books approved:boolean
 rails g model isbn\
  value:string\
  book_id:integer
+
+rails g migration magrate_book_isbn_to_isbn_value
