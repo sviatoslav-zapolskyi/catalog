@@ -20,49 +20,50 @@ class Scraper
 
     book_params = {
         EAN13: isbn,
-        title: driver.find_element(xpath: "//*[@itemprop='name']").text,
-        pages: driver.find_element(xpath: "//*[@itemprop='numberOfPages']").text,
-        year_published: driver.find_element(xpath: "//*[@itemprop='copyrightYear']").text,
-        isbn: driver.find_element(xpath: "//*[@itemprop='isbn']").text,
-        circulation: driver.find_element(xpath: "//*[@id='count']").text,
-        description: driver.find_element(xpath: "//*[@id='descript']").text,
+        title: (find_element_by(itemprop: 'name').text if any_elements itemprop: 'name'),
+        pages: (find_element_by(itemprop: 'numberOfPages').text if any_elements itemprop: 'numberOfPages'),
+        year_published: (find_element_by(itemprop: 'copyrightYear').text if any_elements itemprop: 'copyrightYear'),
+        isbn: (find_element_by(itemprop: 'isbn').text if any_elements itemprop: 'isbn'),
+        circulation: (find_element_by(id: 'count').text if any_elements id: 'count'),
+        description: (find_element_by(id: 'descript').text if any_elements id: 'descript'),
 
-        publishers: driver.find_elements(xpath: "//*[@itemprop='publisher']/a").map { |p| { name: p.text } },
+        publishers: find_elements_by(itemprop: 'publisher').map { |p| { name: p.text } },
 
         format: {
-            cover: driver.find_element(xpath: "//*[@itemprop='bookFormat']").text,
+            cover: (find_element_by(itemprop: 'bookFormat').text if any_elements itemprop: 'bookFormat'),
+            format: (find_element_by(id: 'format').find_element(xpath: '..').text.gsub('Формат: ', '') if any_elements id: 'format')
         },
 
         serie: {
-            name: driver.find_element(xpath: "//*[@id='series']/a").text
+            name: (find_element_by(id: 'series').text if any_elements id: 'series'),
         }
     }
-
-    format_elements = driver.find_elements(xpath: "//*[@id='format']/..")
-    book_params[:format][:format] = format_elements.first.text.gsub('Формат: ', '') if format_elements.any?
 
     book = Book.new(book_params)
 
     print " : #{book_params[:title]} ... "
 
-    driver.find_elements(xpath: "//*[@itemprop='image']").map { |i| i.attribute('src') }.each do |url|
+    find_elements_by(itemprop: 'image').map { |i| i.attribute('src') }.each do |url|
       downloaded_image = open(url)
       book.images.attach(io: downloaded_image, filename: "#{url.split('/').last}.jpeg")
     end
 
     driver.find_element(xpath: "//*[@id='content']//a[contains(@href,'work')]").click
 
-    unit = driver.find_element(xpath: "//*[@itemprop='datePublished']/..").text
-    year = driver.find_element(xpath: "//*[@itemprop='datePublished']").text
-    major_form = unit.split(", #{year}").first
+    if any_elements itemprop: 'datePublished'
+      date_published_element = find_element_by(itemprop: 'datePublished')
+      unit = date_published_element.find_element(xpath: '..').text
+      year = date_published_element.text
+      major_form = unit.split(", #{year}").first
+    end
 
     work_params = {
-        name: driver.find_element(xpath: "//*[@itemprop='name']").text,
+        name: (find_element_by(itemprop: 'name').text if any_elements itemprop: 'name'),
         major_form: major_form,
         year: year,
-        language: driver.find_element(xpath: "//*[@id='work-langinit-unit']").text.split(': ')[1],
+        language: (find_element_by(id: 'work-langinit-unit').text.split(': ')[1] if any_elements id: 'work-langinit-unit'),
         authors: driver.find_elements(xpath: "//div[@id='work-names-unit']/*[@itemprop='author']/a").map(&:text).join('; '),
-        abstract: driver.find_element(xpath: "//*[@itemprop='description']").text,
+        abstract: (find_element_by(itemprop: 'description').text if any_elements itemprop: 'description'),
     }
 
     work = Work.new(work_params)
@@ -81,6 +82,27 @@ class Scraper
   end
 
   private
+
+  def any_elements(param)
+    find_elements_by(param).any?
+  end
+
+  def find_element_by(param)
+    driver.find_element(xpath: to_xpath(param))
+  end
+
+  def find_elements_by(param)
+    driver.find_elements(xpath: to_xpath(param))
+  end
+
+  def to_xpath(param)
+    raise "to_xpath requires only one key but receive param with multi key: #{param}" if param.keys.count > 1
+
+    attribute = param.keys.first
+    value = param[attribute]
+
+    "//*[@#{attribute.to_s}='#{value}']"
+  end
 
   def fantlab_search(isbn)
     print "search #{isbn}"
