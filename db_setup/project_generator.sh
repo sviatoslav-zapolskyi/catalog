@@ -121,3 +121,7 @@ rails generate progress_job:install
 rake db:migrate
 
 rails g migration add_approved_to_books approved:boolean
+
+rails g model isbn\
+ value:string\
+ book_id:integer

@@ -10,6 +10,8 @@ class Book < ApplicationRecord
   has_and_belongs_to_many :works
   has_and_belongs_to_many :publishers
 
+  has_many :isbns
+
   validate :image_type
 
   after_initialize do |book|
