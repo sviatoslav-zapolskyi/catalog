@@ -48,28 +48,39 @@ class Scraper
       book.images.attach(io: downloaded_image, filename: "#{url.split('/').last}.jpeg")
     end
 
-    driver.find_element(xpath: "//*[@id='content']//a[contains(@href,'work')]").click
+    driver.find_elements(xpath: "//*[@id='content']//a[contains(@href,'work')]").map do |e|
+      href = e.attribute(:href)
+      href if href =~ /work\d+$/
+    end.compact.uniq.each do |work_link|
+      driver.execute_script 'window.open()'
+      driver.switch_to.window driver.window_handles.last
+      driver.get work_link
 
-    if any_elements itemprop: 'datePublished'
-      date_published_element = find_element_by(itemprop: 'datePublished')
-      unit = date_published_element.find_element(xpath: '..').text
-      year = date_published_element.text
-      major_form = unit.split(", #{year}").first
+      if any_elements itemprop: 'datePublished'
+        date_published_element = find_element_by(itemprop: 'datePublished')
+        unit = date_published_element.find_element(xpath: '..').text
+        year = date_published_element.text
+        major_form = unit.split(", #{year}").first
+      end
+
+      work_params = {
+          name: (find_element_by(itemprop: 'name').text if any_elements itemprop: 'name'),
+          major_form: major_form,
+          year: year,
+          language: (find_element_by(id: 'work-langinit-unit').text.split(': ')[1] if any_elements id: 'work-langinit-unit'),
+          authors: driver.find_elements(xpath: "//div[@id='work-names-unit']/*[@itemprop='author']/a").map(&:text).join('; '),
+          abstract: (find_element_by(itemprop: 'description').text if any_elements itemprop: 'description'),
+      }
+
+      work = Work.new(work_params)
+      work.save
+
+      book.works << work
+
+      driver.close
+      driver.switch_to.window( driver.window_handles.first )
     end
 
-    work_params = {
-        name: (find_element_by(itemprop: 'name').text if any_elements itemprop: 'name'),
-        major_form: major_form,
-        year: year,
-        language: (find_element_by(id: 'work-langinit-unit').text.split(': ')[1] if any_elements id: 'work-langinit-unit'),
-        authors: driver.find_elements(xpath: "//div[@id='work-names-unit']/*[@itemprop='author']/a").map(&:text).join('; '),
-        abstract: (find_element_by(itemprop: 'description').text if any_elements itemprop: 'description'),
-    }
-
-    work = Work.new(work_params)
-    work.save
-
-    book.works << work
     book.save
 
     puts "saved!"
@@ -82,6 +93,17 @@ class Scraper
   end
 
   private
+
+  def close_all_and_open_new_tab
+    driver.execute_script 'window.open()'
+
+    while driver.window_handles.count > 1
+      driver.switch_to.window( driver.window_handles.first )
+      driver.close
+    end
+
+    driver.switch_to.window( driver.window_handles.first )
+  end
 
   def any_elements(param)
     find_elements_by(param).any?
@@ -105,6 +127,8 @@ class Scraper
   end
 
   def fantlab_search(isbn)
+    close_all_and_open_new_tab
+
     print "search #{isbn}"
     driver.get("https://fantlab.ru/searchmain?searchstr=#{isbn}")
     found_books = driver.find_elements(xpath: "//div[@class='one']/table/tbody/tr/td/a")
