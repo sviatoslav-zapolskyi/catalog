@@ -13,4 +13,3 @@ else
     tar -zcvf ${BACKUP_HOME}/storage.tar.gz ./storage/
     docker exec ${MYSQL_CONTAINER} /usr/bin/mysqldump -u root -ppassword catalog_development > ${BACKUP_HOME}/mysqldump.sql
 fi
-

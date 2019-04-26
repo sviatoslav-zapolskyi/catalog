@@ -25,4 +25,7 @@ else
     tar -zxvf ${BACKUP_HOME}/storage.tar.gz
 
     cat ${BACKUP_HOME}/mysqldump.sql | docker exec -i ${MYSQL_CONTAINER} /usr/bin/mysql -u root -ppassword catalog_development
+
+    echo 'remove old images'
+    docker rmi $(docker images -a -q)
 fi
