@@ -34,3 +34,5 @@
 .rakeTasks
 catalog.iml
 .DS_Store
+
+/backups/**
