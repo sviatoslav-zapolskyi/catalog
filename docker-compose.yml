@@ -5,8 +5,6 @@ services:
   command: rails s -b 0.0.0.0 -p 3000
   ports:
    - 3000:3000
-  volumes:
-   - .:/app
   environment:
    - DEV_DATABASE_HOST=db
   depends_on:
@@ -18,8 +16,6 @@ services:
   command: >
     bash -c "rake db:migrate &&
              rake jobs:work"
-  volumes:
-   - .:/app
   environment:
    - DEV_DATABASE_HOST=db
   depends_on:

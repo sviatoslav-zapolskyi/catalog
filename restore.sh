@@ -28,4 +28,7 @@ else
 
     echo 'remove old images'
     docker rmi $(docker images -a -q)
+
+    echo 'remove old volumes'
+    docker volume rm $(docker volume ls -q)
 fi
