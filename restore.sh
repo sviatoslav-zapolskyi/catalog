@@ -15,14 +15,14 @@ else
     echo  "remove all containers"
     docker rm $(docker ps -a -q)
 
+    rm -rf ./storage/
+    tar -zxvf ${BACKUP_HOME}/storage.tar.gz
+
     rm tmp/pids/server.pid
 
     docker-compose up --build --detach
 
     read -p 'provide mysql container id: ' MYSQL_CONTAINER
-
-    rm -rf ./storage/
-    tar -zxvf ${BACKUP_HOME}/storage.tar.gz
 
     cat ${BACKUP_HOME}/mysqldump.sql | docker exec -i ${MYSQL_CONTAINER} /usr/bin/mysql -u root -ppassword catalog_development
 
