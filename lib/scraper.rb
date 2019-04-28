@@ -34,7 +34,9 @@ class Scraper
 
         serie: {
             name: (find_element_by(id: 'series').text if any_elements id: 'series'),
-        }
+        },
+
+        approved: false
     }
 
     book = Book.new(book_params)

@@ -4,7 +4,7 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    @books = Book.where(approved: true).all
+    @pagy, @books = pagy(Book.where(approved: true).all, items: 10)
   end
 
   # GET /books/1

@@ -8,7 +8,7 @@
   <thead>
     <tr>
       <th>Created</th>
-      <th>ISBNs</th>
+      <th>Books</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,10 +16,13 @@
   <tbody>
     <% @bulk_insert_lists.each do |bulk_insert_list| %>
       <tr>
-        <td><%= bulk_insert_list.created_at %></td>
-        <td><%= bulk_insert_list.EAN13 %></td>
-        <td><%= link_to 'Show', bulk_insert_list %></td>
-        <td><%= link_to 'Edit', edit_bulk_insert_list_path(bulk_insert_list) %></td>
+        <td><%= link_to bulk_insert_list.created_at, bulk_insert_list %></td>
+        <td>
+          <% isbns = bulk_insert_list.EAN13.split('; ') %>
+          <% Book.where(isbns: Isbn.where(value: isbns), approved: false).limit(10).each do |book| %>
+            <%= link_to (book.images.attached? ? image_tag(book.images.first.variant(resize: '120x120', auto_orient: false).processed) : 'no image'), book %>
+          <% end %>
+        </td>
         <td><%= link_to 'Destroy', bulk_insert_list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
