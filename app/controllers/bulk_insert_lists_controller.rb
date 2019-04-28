@@ -1,4 +1,3 @@
-require 'csv'
 require 'scraper'
 
 class BulkInsertListsController < ApplicationController
@@ -14,11 +13,11 @@ class BulkInsertListsController < ApplicationController
   # GET /bulk_insert_lists/1
   # GET /bulk_insert_lists/1.json
   def show
-
+  # todo: optimise it!
     isbns = @bulk_insert_list.EAN13.split('; ')
 
     missed_isbns = isbns.select do |isbn|
-      Book.find_by(EAN13: isbn).nil?
+      Isbn.find_by(value: isbn).nil?
     end
 
     if missed_isbns.any?
@@ -26,8 +25,8 @@ class BulkInsertListsController < ApplicationController
       import.isbns =missed_isbns
       @job = Delayed::Job.enqueue import
     else
-      @books = isbns.map do |ean13|
-        Book.find_by(EAN13: ean13)
+      @books = isbns.map do |isbn|
+        Isbn.find_by(value: isbn).book
       end
     end
 

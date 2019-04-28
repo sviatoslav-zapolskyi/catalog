@@ -10,6 +10,8 @@ class Book < ApplicationRecord
   has_and_belongs_to_many :works
   has_and_belongs_to_many :publishers
 
+  has_many :isbns
+
   validate :image_type
 
   after_initialize do |book|
@@ -45,6 +47,18 @@ class Book < ApplicationRecord
     format = Format.find_by cover: params[:cover]
     format = Format.create(params) unless format
     super(format)
+  end
+
+  def isbns=(values)
+    values = values.delete('ISBN').delete(' ').delete('-')
+    splitted = values.split(',')
+    splitted = values.split(';') if splitted.count == 1
+
+    super(splitted.map do |value|
+      isbn = Isbn.find_by value: value
+      isbn = Isbn.create(value: value) unless isbn
+      isbn
+    end)
   end
 
   private

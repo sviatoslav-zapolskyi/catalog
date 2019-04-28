@@ -56,8 +56,8 @@
 </p>
 
 <p>
-  <strong>Isbn:</strong>
-  <%= @book.isbn %>
+  <strong>Isbns:</strong>
+  <%= @book.isbns.map(&:value).join('; ') %>
 </p>
 
 <% if @book.volume %>

@@ -3,7 +3,7 @@
   <tr>
     <th>Cover</th>
     <th>Approved</th>
-    <th>EAN13</th>
+    <th>ISBNs</th>
     <th>Title</th>
     <th>Authors</th>
     <th>Price</th>
@@ -19,7 +19,7 @@
     <tr>
       <td><%= link_to (book.images.attached? ? image_tag(book.images.first.variant(resize: '100x100', auto_orient: false).processed) : 'no image'), book %></td>
       <td style="text-align: center; vertical-align: middle;"><%= check_box_tag '', '', book.approved, disabled: 'disabled' %></td>
-      <td><%= book.EAN13 %></td>
+      <td><%= book.isbns.map(&:value).join('; ') %></td>
       <td><%= book.title %></td>
       <td><%= book.works.map { |w| w.authors.map(&:name) }.flatten.uniq.join(', ') %></td>
       <td><%= book.price %></td>

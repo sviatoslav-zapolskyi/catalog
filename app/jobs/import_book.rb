@@ -11,7 +11,7 @@ class ImportBook < ProgressJob::Base
     update_progress_max(isbns.count)
 
     isbns.each do |isbn|
-      scrap.from_fantlab isbn unless Book.find_by(EAN13: isbn)
+      scrap.from_fantlab isbn unless Isbn.find_by value: isbn
       update_progress
     end
 

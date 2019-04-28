@@ -1,3 +1,5 @@
+require 'csv'
+
 class BulkInsertList < ApplicationRecord
 
   validates :EAN13, presence: true
@@ -11,9 +13,13 @@ class BulkInsertList < ApplicationRecord
   end
 
   def EAN13=(param)
-    csv = CSV.read(param.tempfile).flatten.compact.reject(&:empty?)
-    csv.delete('ISBN Code')
-    csv.delete(' ')
-    super(csv.join('; '))
+    if param.is_a? String
+      super param
+    else
+      csv = CSV.read(param.tempfile).flatten.compact.reject(&:empty?)
+      csv.delete('ISBN Code')
+      csv.delete(' ')
+      super csv.join('; ').delete('-')
+    end
   end
 end
