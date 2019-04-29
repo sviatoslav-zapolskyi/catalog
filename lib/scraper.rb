@@ -156,7 +156,7 @@ class Scraper
       true
     else
       puts ' not found!'
-      Book.create isbns: isbn, title: 'Не найдено на fantlab'
+      Book.create isbns: isbn, title: 'Не найдено на fantlab', approved: false
       false
     end
 
