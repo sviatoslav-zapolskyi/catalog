@@ -18,11 +18,11 @@ class MainController < ApplicationController
 
         case params[:type]
           when 'author'
-            books = books_by_author
+            books = books_by_author.uniq
           when 'publisher'
-            books = books_by_publisher
+            books = books_by_publisher.uniq
           when 'serie'
-            books = books_by_serie
+            books = books_by_serie.uniq
           when nil
             @title = "key word: #{params[:q]}"
             books = books.to_a.concat(books_by_author).concat(books_by_publisher).concat(books_by_serie).uniq
