@@ -92,7 +92,7 @@ class BulkInsertListsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def bulk_insert_list_params
-    params.require(:bulk_insert_list).permit(:hash_id, :EAN13)
+    params.require(:bulk_insert_list).permit(:hash_id, :EAN13, :shelf)
   end
 
 end

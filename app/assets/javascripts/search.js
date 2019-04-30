@@ -24,6 +24,10 @@ document.addEventListener("turbolinks:load", function () {
         {
             listLocation: "series",
             header: "<div style='color:#239B56';>Series</div>"
+        },
+        {
+            listLocation: "shelfs",
+            header: "<div style='color:#239B56';>Shelfs</div>"
         }],
         list: {
             onChooseEvent: function () {
