@@ -32,3 +32,10 @@ json.series do
     json.url search_path(type: 'serie', q: serie.name)
   end
 end
+
+json.shelfs do
+  json.array!(@shelfs) do |shelf|
+    json.name shelf
+    json.url search_path(type: 'shelf', q: shelf)
+  end
+end

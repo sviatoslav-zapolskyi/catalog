@@ -22,4 +22,20 @@ class BulkInsertList < ApplicationRecord
       super csv.join('; ').delete('-')
     end
   end
+
+  def shelf=(param)
+    Isbn.where(value: self.EAN13.split('; ')).each do |isbn|
+      isbn.book.update(shelf: param)
+    end if self.EAN13 && param != 'mixed'
+  end
+
+  def shelf
+    if self.EAN13
+      shelfs = Isbn.where(value: self.EAN13.split('; ')).map do |isbn|
+        isbn.book.shelf
+      end.uniq
+
+      shelfs.count > 1 ? "mixed" : shelfs.first
+    end
+  end
 end
