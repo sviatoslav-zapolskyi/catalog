@@ -32,8 +32,8 @@ class BulkInsertList < ApplicationRecord
   def shelf
     if self.EAN13
       shelfs = Isbn.where(value: self.EAN13.split('; ')).map do |isbn|
-        isbn.book.shelf
-      end.uniq
+        isbn.book.map(&:shelf)
+      end.flatten.uniq
 
       shelfs.count > 1 ? "mixed" : shelfs.first
     end

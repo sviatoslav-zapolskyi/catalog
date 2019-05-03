@@ -16,6 +16,7 @@ class MainController < ApplicationController
         books_by_author = authors.map { |a| a.works.map(&:books) }.flatten
         books_by_publisher =  publishers.map(&:books).flatten
         books_by_serie = series.map(&:books).flatten
+        books_by_isbn = isbns.map(&:book).flatten
 
         case params[:type]
           when 'author'
@@ -26,11 +27,14 @@ class MainController < ApplicationController
             books = books_by_serie.uniq
           when 'shelf'
             books = Book.where(shelf: @shelfs).to_a
+          when 'isbn'
+            books = books_by_isbn.uniq
           when nil
             @title = "key word: #{params[:q]}"
-            books = books.to_a.concat(books_by_author).concat(books_by_publisher).concat(books_by_serie).uniq
+            books = books.to_a.concat(books_by_author).concat(books_by_publisher).concat(books_by_serie).concat(books_by_isbn).uniq
         end
 
+        redirect_to books.first if books.count == 1
         @pagy, @books = pagy_array(books, items: 10)
       }
       format.json {

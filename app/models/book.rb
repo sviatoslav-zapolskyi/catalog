@@ -10,7 +10,7 @@ class Book < ApplicationRecord
   has_and_belongs_to_many :works
   has_and_belongs_to_many :publishers
 
-  has_many :isbns
+  has_and_belongs_to_many :isbns
 
   validate :image_type
 
@@ -54,11 +54,13 @@ class Book < ApplicationRecord
     splitted = values.split(',')
     splitted = values.split(';') if splitted.count == 1
 
-    super(splitted.map do |value|
+    isbns = splitted.map { |s| to_isbn s }.compact
+
+    super(isbns.map do |value|
       isbn = Isbn.find_by value: value
       isbn = Isbn.create(value: value) unless isbn
       isbn
-    end)
+    end.uniq)
   end
 
   private
@@ -67,6 +69,12 @@ class Book < ApplicationRecord
     images.each do |image|
       errors.add(:image, 'needs to be JPEG or PNG') unless image.content_type.in? %('image/jpeg image/jpg image/png')
     end
+  end
+
+  def to_isbn(value)
+    value.match(/([\d]{9}(\d|X)([\d]{3})?)/).captures.first
+  rescue
+      nil
   end
 
 end
