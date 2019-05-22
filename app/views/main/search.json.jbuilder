@@ -8,7 +8,7 @@ end
 json.isbns do
   json.array!(@isbns) do |isbn|
     json.name isbn.value
-    json.url book_path(isbn.book)
+    json.url search_path(type: 'isbn', q: isbn.value)
   end
 end
 

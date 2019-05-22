@@ -19,7 +19,7 @@
         <td><%= link_to bulk_insert_list.created_at, bulk_insert_list %></td>
         <td>
           <% isbns = bulk_insert_list.EAN13.split('; ') %>
-          <% Book.where(isbns: Isbn.where(value: isbns), approved: false).limit(10).each do |book| %>
+          <% Isbn.where(value: isbns).to_a.map{ |i| i.book }.flatten.uniq.select{ |b| !b.approved }.first(10).each do |book| %>
             <%= link_to (book.images.attached? ? image_tag(book.images.first.variant(resize: '120x120', auto_orient: false).processed) : 'no image'), book %>
           <% end %>
         </td>

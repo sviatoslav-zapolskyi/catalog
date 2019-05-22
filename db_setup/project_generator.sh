@@ -134,3 +134,5 @@ rails g migration delete_dashes_from_bulk_inserts_ean13
 rails g migration replace_book_approved_null_with_false
 
 rails g migration add_foreign_key_to_isbns
+
+rails g migration create_join_table_books_isbns books isbns

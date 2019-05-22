@@ -1,4 +1,5 @@
 require 'scraper'
+require 'pagy/extras/array'
 
 class BulkInsertListsController < ApplicationController
   before_action :set_bulk_insert_list, only: [:show, :edit, :update, :destroy]
@@ -25,7 +26,7 @@ class BulkInsertListsController < ApplicationController
       import.isbns =missed_isbns
       @job = Delayed::Job.enqueue import
     else
-      @pagy, @books = pagy(Book.where(isbns: Isbn.where(value: isbns)), items: 10)
+      @pagy, @books = pagy_array(Isbn.where(value: isbns).to_a.map{ |i| i.book }.flatten.uniq, items: 10)
     end
 
     respond_to do |format|
@@ -93,6 +94,10 @@ class BulkInsertListsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def bulk_insert_list_params
     params.require(:bulk_insert_list).permit(:hash_id, :EAN13, :shelf)
+  end
+
+  def pagy_get_items(array, pagy)
+    array[pagy.offset, pagy.items]
   end
 
 end
