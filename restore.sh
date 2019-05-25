@@ -3,16 +3,19 @@
 if [ "$1" == "" ] ; then
     echo "provide backup folder name"
 else
-    BACKUP_HOME=$1
+    MYSQL_USER=root
+    MYSQL_PASSWORD=password
+
+    BACKUP_HOME=${1%/}
 
     TAG=$(cat ${BACKUP_HOME}/git_tag.txt)
 
     git checkout ${TAG}
 
-    echo "stop containers"
+    echo "Stop containers"
     docker stop $(docker ps -a -q)
 
-    echo  "remove all containers"
+    echo  "Remove all containers"
     docker rm $(docker ps -a -q)
 
     rm -rf ./storage/
@@ -22,13 +25,16 @@ else
 
     docker-compose up --build --detach
 
-    read -p 'provide mysql container id: ' MYSQL_CONTAINER
+    echo 'Restore mysqldump.sql'
+    while ! cat ${BACKUP_HOME}/mysqldump.sql | docker exec -i catalog_db_1 /usr/bin/mysql -u ${MYSQL_USER} -p${MYSQL_PASSWORD} catalog_development >/dev/null 2>&1 ; do
+        echo 'Wait mysql to start ...'
+        sleep 3
+    done
+    echo 'Restore mysqldump.sql ... done.'
 
-    cat ${BACKUP_HOME}/mysqldump.sql | docker exec -i ${MYSQL_CONTAINER} /usr/bin/mysql -u root -ppassword catalog_development
+    docker start catalog_worker_1
+    sleep 1
 
-    echo 'remove old images'
-    docker rmi $(docker images -a -q)
-
-    echo 'remove old volumes'
-    docker volume rm $(docker volume ls -q)
+    echo 'Remove all unused containers, networks, images and volumes.'
+    docker system prune --force
 fi

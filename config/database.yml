@@ -7,6 +7,11 @@ default: &default
   username: catalog
   password: catalog
 
+local:
+  <<: *default
+  database: catalog_development
+  host: 127.0.0.1
+
 development:
   <<: *default
   database: catalog_development

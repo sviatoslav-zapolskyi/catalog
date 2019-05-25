@@ -40,7 +40,7 @@ class Scraper
           approved: false
       }
 
-      book_params[:isbns] << ", #{@isbn}"
+      book_params[:isbns] << ", #{@isbn_value}"
       book = Book.new(book_params)
 
       print " : #{book_params[:title]} ... "
@@ -49,7 +49,7 @@ class Scraper
         found_in_catalog.isbns.to_a.each do |isbn|
           if book.isbns.to_a.include? isbn
             puts 'duplicate!'
-            found_in_catalog.isbns << Isbn.find_by(value: @isbn)
+            found_in_catalog.isbns = found_in_catalog.isbns.map(&:value).append(@isbn_value).uniq.join(',')
             return
           end
         end
@@ -139,7 +139,7 @@ class Scraper
   end
 
   def fantlab_search(isbn)
-    @isbn = isbn
+    @isbn_value = isbn
     close_all_and_open_new_tab
 
     print "search #{isbn}"
@@ -153,7 +153,7 @@ class Scraper
       found_books = driver.find_elements(xpath: "//div[@class='one']/table/tbody/tr/td/a")
 
       if found_books.any?
-        @isbn = isbn10
+        @isbn_value = isbn10
         BulkInsertList.find_each do |bulk|
           bulk.EAN13.gsub! isbn, isbn10
           bulk.save

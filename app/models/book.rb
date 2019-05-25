@@ -50,17 +50,13 @@ class Book < ApplicationRecord
   end
 
   def isbns=(values)
-    values = values.delete('ISBN').delete(' ').delete('-')
-    splitted = values.split(',')
-    splitted = values.split(';') if splitted.count == 1
+    return super(to_isbns values) if values.is_a? String
 
-    isbns = splitted.map { |s| to_isbn s }.compact
+    if values.respond_to? :select
+      isbns = values.select { |v| v.is_a? Isbn }
+      return super(isbns) if isbns.any?
+    end
 
-    super(isbns.map do |value|
-      isbn = Isbn.find_by value: value
-      isbn = Isbn.create(value: value) unless isbn
-      isbn
-    end.uniq)
   end
 
   private
@@ -71,10 +67,24 @@ class Book < ApplicationRecord
     end
   end
 
-  def to_isbn(value)
+  def match_isbn(value)
     value.match(/([\d]{9}(\d|X)([\d]{3})?)/).captures.first
   rescue
       nil
+  end
+
+  def to_isbns(values)
+    values = values.delete('ISBN').delete(' ').delete('-')
+    splitted = values.split(',')
+    splitted = values.split(';') if splitted.count == 1
+
+    splitted.map do |s|
+      value = match_isbn s
+      next unless value
+      isbn = Isbn.find_by value: value
+      isbn = Isbn.create(value: value) unless isbn
+      isbn
+    end.compact.uniq
   end
 
 end
