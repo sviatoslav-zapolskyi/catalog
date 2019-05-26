@@ -7,27 +7,31 @@ document.addEventListener("turbolinks:load", function () {
         },
         categories: [{
             listLocation: "books",
-            header: "<div style='color:#239B56';>Books</div>"
+            header: "<div style='color:#239B56';>Books:</div>"
         },
         {
             listLocation: "isbns",
-            header: "<div style='color:#239B56';>Isbns</div>"
+            header: "<div style='color:#239B56';>Isbns:</div>"
         },
         {
             listLocation: "authors",
-            header: "<div style='color:#239B56';>Authors</div>"
+            header: "<div style='color:#239B56';>Authors:</div>"
         },
         {
             listLocation: "putlishers",
-            header: "<div style='color:#239B56';>Putlishers</div>"
+            header: "<div style='color:#239B56';>Putlishers:</div>"
+        },
+        {
+            listLocation: "works",
+            header: "<div style='color:#239B56';>Works:</div>"
         },
         {
             listLocation: "series",
-            header: "<div style='color:#239B56';>Series</div>"
+            header: "<div style='color:#239B56';>Series:</div>"
         },
         {
             listLocation: "shelfs",
-            header: "<div style='color:#239B56';>Shelfs</div>"
+            header: "<div style='color:#239B56';>Shelfs:</div>"
         }],
         list: {
             onChooseEvent: function () {

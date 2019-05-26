@@ -26,6 +26,13 @@ json.putlishers do
   end
 end
 
+json.works do
+  json.array!(@works) do |work|
+    json.name work.name
+    json.url search_path(type: 'work', q: work.name)
+  end
+end
+
 json.series do
   json.array!(@series) do |serie|
     json.name serie.name

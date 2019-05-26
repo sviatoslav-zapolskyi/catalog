@@ -1,0 +1,5 @@
+<%= form_tag("/books/scrap_from_fantlab", method: "get") do %>
+  <%= label_tag(:scrap_url, "fantlab link:") %>
+  <%= text_field_tag :scrap_url, '', size: 75 %>
+  <%= submit_tag("scrap") %>
+<% end %>
