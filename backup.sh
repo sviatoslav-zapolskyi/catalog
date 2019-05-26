@@ -1,15 +1,9 @@
 #!/usr/bin/env bash
 
-if [ "$1" == "" ] ; then
-    echo "provide mysql container id"
-else
-    MYSQL_CONTAINER=$1
+TAG=$(git describe --tags)
+BACKUP_HOME=backups/${TAG}_$(date +"%s")
 
-    BACKUP_HOME=backups/$(date +"%s")
-    TAG=$(git describe --tags)
-
-    mkdir -p ${BACKUP_HOME}
-    echo ${TAG} > ${BACKUP_HOME}/git_tag.txt
-    tar -zcvf ${BACKUP_HOME}/storage.tar.gz ./storage/
-    docker exec ${MYSQL_CONTAINER} /usr/bin/mysqldump -u root -ppassword catalog_development > ${BACKUP_HOME}/mysqldump.sql
-fi
+mkdir -p ${BACKUP_HOME}
+echo ${TAG} > ${BACKUP_HOME}/git_tag.txt
+tar -zcvf ${BACKUP_HOME}/storage.tar.gz ./storage/
+docker exec catalog_db_1 /usr/bin/mysqldump -u root -ppassword catalog_development > ${BACKUP_HOME}/mysqldump.sql
