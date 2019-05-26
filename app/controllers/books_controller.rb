@@ -73,6 +73,31 @@ class BooksController < ApplicationController
     redirect_back(fallback_location: request.referer)
   end
 
+  def scrap_from_fantlab
+    require 'scraper'
+    require 'open-uri'
+
+    scrap = Scraper.new
+
+    @book = Book.new(scrap.book_params scrap_url)
+    @book.works = scrap.works(scrap_url)
+
+    duplicate = scrap.duplicate(@book)
+    if duplicate
+      @book = duplicate
+    else
+      scrap.book_image_urls(scrap_url).each do |url|
+        @book.images.attach(io: open(url), filename: "#{url.split('/').last}.jpeg")
+      end
+
+      @book.save
+    end
+
+    scrap.quite
+
+    redirect_to book_path(@book)
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_book
@@ -86,6 +111,10 @@ class BooksController < ApplicationController
 
   def works_params
     params.require(:book).permit({ works: [:id, :name, :authors, :interpreters] })[:works]
+  end
+
+  def scrap_url
+    params[:scrap_url]
   end
 
   def update_works

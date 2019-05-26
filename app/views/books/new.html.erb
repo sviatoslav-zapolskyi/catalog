@@ -1,5 +1,7 @@
 <h1>New Book</h1>
 
+<%= link_to 'Scap from fantlab', new_book_path, id: 'new_import', remote: true %>
+
 <%= render 'book', book: @book %>
 
 <%= link_to 'Back', books_path %>
