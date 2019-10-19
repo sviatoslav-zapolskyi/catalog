@@ -125,4 +125,4 @@
   <%= @book.quantity %>
 </p>
 
-<%= link_to 'Edit', edit_book_path(@book) if user_signed_in? && current_user.role == 'admin' %>
+<%= link_to 'Edit', edit_book_path(@book) if admin? %>

@@ -9,7 +9,7 @@
       <li class="nav-item active">
         <%= link_to 'Home', root_path, class: "nav-link" %>
       </li>
-      <% if user_signed_in? && current_user.role == 'admin' %>
+      <% if admin? %>
         <li class="nav-item">
           <%= link_to 'Bulk Insert', bulk_insert_lists_path, class: "nav-link" %>
         </li>

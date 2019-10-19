@@ -5,6 +5,11 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from ActionController::InvalidAuthenticityToken, with: :invalid_authenticity_token
 
+  helper_method :admin?
+  def admin?
+    user_signed_in? && current_user.role == 'admin'
+  end
+
   private
 
   def invalid_authenticity_token
