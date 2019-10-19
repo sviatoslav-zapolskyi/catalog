@@ -134,9 +134,13 @@ rails g migration delete_dashes_from_bulk_inserts_ean13
 rails g migration replace_book_approved_null_with_false
 
 rails g migration add_foreign_key_to_isbns
-
 rails g migration create_join_table_books_isbns books isbns
-
 rails g migration change_description_to_be_text_in_books
-
 rails g migration remove_work_dublicates
+
+rails g devise:install
+rails g devise User
+rails g devise:views
+
+rails g migration add_role_to_users role:string
+rails g pundit:install

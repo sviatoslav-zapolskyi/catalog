@@ -28,7 +28,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use ActiveStorage variant
-gem 'mini_magick', '~> 4.8'
+gem 'mini_magick', '~> 4.9', '>= 4.9.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -47,6 +47,12 @@ gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.3'
 gem 'progress_job', '~> 0.0.4'
 gem 'haml', '~> 5.0', '>= 5.0.4'
 gem 'pagy', '~> 2.1', '>= 2.1.5'
+
+# Flexible authentication solution for Rails with Warden
+gem 'devise', '~> 4.7', '>= 4.7.1'
+
+# Object oriented authorization for Rails applications
+gem 'pundit', '~> 2.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -68,6 +74,3 @@ group :test do
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
 end
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-#gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
