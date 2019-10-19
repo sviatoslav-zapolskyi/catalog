@@ -44,6 +44,7 @@ class MainController < ApplicationController
                         .uniq
         end
 
+        books.reject!{ |b| !b.approved } unless admin?
         redirect_to books.first if books.count == 1
         @pagy, @books = pagy_array(books, items: 10)
       }
