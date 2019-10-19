@@ -30,6 +30,17 @@
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
       </li>
     </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+      <% if user_signed_in? %>
+        <li><%= link_to current_user.email, edit_user_registration_path, class: "nav-link" %></li>
+        <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link" %></li>
+      <% else %>
+        <li><%= link_to 'Sign Up', new_user_registration_path, class: "nav-link" %></li>
+        <li><%= link_to 'Login', new_user_session_path, class: "nav-link" %></li>
+      <% end %>
+    </ul>
+
     <%= form_with url:search_path, local: true, method: :get, html: { class: "form-inline my-2 my-lg-0" } do |form| %>
       <%= form.text_field :q, placeholder: "Search", data: { behavior: "autocomplete" }, class: "form-control mr-sm-2" %>
       <%= form.button "Search", class: "btn btn-outline-success my-2 my-sm-0" %>

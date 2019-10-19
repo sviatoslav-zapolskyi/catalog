@@ -2,6 +2,7 @@ require 'scraper'
 require 'pagy/extras/array'
 
 class BulkInsertListsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_bulk_insert_list, only: [:show, :edit, :update, :destroy]
 
   # GET /bulk_insert_lists
