@@ -141,3 +141,6 @@ rails g migration remove_work_dublicates
 rails g devise:install
 rails g devise User
 rails g devise:views
+
+rails g migration add_role_to_users role:string
+rails g pundit:install

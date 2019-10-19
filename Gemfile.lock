@@ -140,6 +140,8 @@ GEM
       delayed_job
     public_suffix (3.0.3)
     puma (3.12.1)
+    pundit (2.1.0)
+      activesupport (>= 3.0.0)
     rack (2.0.7)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -262,6 +264,7 @@ DEPENDENCIES
   pagy (~> 2.1, >= 2.1.5)
   progress_job (~> 0.0.4)
   puma (~> 3.11)
+  pundit (~> 2.1)
   rails (~> 5.2.2, >= 5.2.2.1)
   ransack (~> 2.1, >= 2.1.1)
   sass-rails (~> 5.0)

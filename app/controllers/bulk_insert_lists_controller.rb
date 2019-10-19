@@ -2,7 +2,6 @@ require 'scraper'
 require 'pagy/extras/array'
 
 class BulkInsertListsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_bulk_insert_list, only: [:show, :edit, :update, :destroy]
 
   # GET /bulk_insert_lists
@@ -40,6 +39,7 @@ class BulkInsertListsController < ApplicationController
   # GET /bulk_insert_lists/new
   def new
     @bulk_insert_list = BulkInsertList.new
+    authorize @bulk_insert_list
   end
 
   # GET /bulk_insert_lists/1/edit
@@ -91,6 +91,7 @@ class BulkInsertListsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_bulk_insert_list
     @bulk_insert_list = BulkInsertList.find_by hash_id: params[:id]
+    authorize @bulk_insert_list
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

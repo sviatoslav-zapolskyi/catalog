@@ -51,6 +51,9 @@ gem 'pagy', '~> 2.1', '>= 2.1.5'
 # Flexible authentication solution for Rails with Warden
 gem 'devise', '~> 4.7', '>= 4.7.1'
 
+# Object oriented authorization for Rails applications
+gem 'pundit', '~> 2.1'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

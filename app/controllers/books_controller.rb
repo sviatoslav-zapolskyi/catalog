@@ -1,5 +1,4 @@
 class BooksController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_book, only: [:show, :edit, :update, :destroy, :delete_image_attachment]
 
   # GET /books
@@ -16,6 +15,7 @@ class BooksController < ApplicationController
   # GET /books/new
   def new
     @book = Book.new
+    authorize @book
     @book.works << Work.new
   end
 
@@ -27,6 +27,7 @@ class BooksController < ApplicationController
   # POST /books.json
   def create
     @book = Book.new(book_params)
+    authorize @book
     @book.works << update_works
 
     respond_to do |format|
@@ -75,6 +76,7 @@ class BooksController < ApplicationController
   end
 
   def scrap_from_fantlab
+    authorize Book.new
     require 'scraper'
     require 'open-uri'
 
@@ -103,6 +105,7 @@ class BooksController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_book
     @book = Book.find_by hash_id: params[:id]
+    authorize @book
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
