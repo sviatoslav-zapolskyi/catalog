@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   root 'books#index'
   get 'main/search'
   get 'main/autocomplete'
+  get 'books/scrap_from_fantlab'
+
   resources :books
   resources :bulk_insert_lists
 

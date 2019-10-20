@@ -36,3 +36,4 @@ catalog.iml
 .DS_Store
 
 /backups/**
+/config/secrets/*

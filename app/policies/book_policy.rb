@@ -14,4 +14,8 @@ class BookPolicy < ApplicationPolicy
   def destroy?
     admin?
   end
+
+  def scrap_from_fantlab?
+    admin?
+  end
 end
