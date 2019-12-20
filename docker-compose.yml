@@ -2,7 +2,8 @@ version: '3'
 services:
  app:
   build: .
-  command: rails s -b 0.0.0.0 -p 3000
+  command: >
+    bash -c "bundle exec rails s -b 0.0.0.0 -p 3000"
   ports:
    - 3000:3000
   volumes:
@@ -16,8 +17,8 @@ services:
  worker:
   build: .
   command: >
-    bash -c "rake db:migrate &&
-             rake jobs:work"
+    bash -c "bundle exec rake db:migrate &&
+             bundle exec rake jobs:work"
   volumes:
    - ./storage:/app/storage
   environment:

@@ -69,7 +69,7 @@ class Scraper
         major_form: major_form,
         year: year,
         language: (find_element_by(id: 'work-langinit-unit').text.split(': ')[1] if any_elements id: 'work-langinit-unit'),
-        authors: driver.find_elements(xpath: "//div[@id='work-names-unit']/*[@itemprop='author']/a").map(&:text).join('; '),
+        authors: driver.find_elements(xpath: "//div[@id='work-names-unit']//a[@itemprop='author']").map(&:text).join('; '),
         abstract: (find_element_by(itemprop: 'description').text if any_elements itemprop: 'description'),
     }
   end
