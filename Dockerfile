@@ -1,4 +1,4 @@
-FROM ruby:2.6.2
+FROM ruby:2.6.8
 
 # http://mozilla.debian.net/
 RUN echo "deb http://security.debian.org/ stretch/updates main" > /etc/apt/sources.list.d/debian-mozilla.list \
