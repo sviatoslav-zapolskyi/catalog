@@ -33,6 +33,7 @@
 .generators
 .rakeTasks
 catalog.iml
+.idea/**
 .DS_Store
 
 /backups/**
