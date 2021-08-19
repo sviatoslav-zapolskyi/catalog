@@ -9,7 +9,7 @@ RUN VERSION='v0.24.0' \
        && curl -L https://github.com/mozilla/geckodriver/releases/download/${VERSION}/geckodriver-${VERSION}-linux64.tar.gz | tar xz -C /usr/local/bin
 
 # https://github.com/nodesource/distributions#installation-instructions
-RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - \
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
        && apt-get install -y nodejs
 
 # Make the directory for the app
