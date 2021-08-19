@@ -7,7 +7,7 @@ services:
   ports:
    - 3000:3000
   volumes:
-   - ./storage:/app/storage
+   - storage:/app/storage
   environment:
    - DEV_DATABASE_HOST=db
   depends_on:
@@ -15,12 +15,15 @@ services:
   stdin_open: true
   tty: true
  worker:
-  build: .
+  shm_size: 2gb
+  build:
+   context: .
+   shm_size: 2gb
   command: >
     bash -c "bundle exec rake db:migrate &&
              bundle exec rake jobs:work"
   volumes:
-   - ./storage:/app/storage
+   - storage:/app/storage
   environment:
    - DEV_DATABASE_HOST=db
   depends_on:
@@ -47,3 +50,10 @@ services:
    - db
   stdin_open: true
   tty: true
+volumes:
+ storage:
+  driver: local
+  driver_opts:
+   o: bind
+   type: none
+   device: ./storage
