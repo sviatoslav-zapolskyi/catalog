@@ -56,7 +56,6 @@ class Book < ApplicationRecord
       isbns = values.select { |v| v.is_a? Isbn }
       return super(isbns) if isbns.any?
     end
-
   end
 
   private

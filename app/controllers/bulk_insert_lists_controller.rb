@@ -27,7 +27,13 @@ class BulkInsertListsController < ApplicationController
       import.isbns = missed_isbns
       @job = Delayed::Job.enqueue import
     else
-      @pagy, @books = pagy_array(Isbn.where(value: isbns).to_a.map{ |i| i.book }.flatten.uniq, items: 10)
+      @pagy, @books = pagy_array(
+        Isbn.where(value: isbns)
+          .to_a
+          .map(&:book)
+          .flatten
+          .uniq
+          .sort_by { |b| b.send params[:sort] ? params[:sort] : 'title' }, items: 10)
     end
 
     respond_to do |format|
@@ -96,7 +102,7 @@ class BulkInsertListsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def bulk_insert_list_params
-    params.require(:bulk_insert_list).permit(:hash_id, :EAN13, :shelf)
+    params.require(:bulk_insert_list).permit(:hash_id, :EAN13, :shelf, :sort)
   end
 
   def pagy_get_items(array, pagy)
