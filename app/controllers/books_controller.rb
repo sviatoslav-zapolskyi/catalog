@@ -4,7 +4,7 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    @pagy, @books = pagy(Book.where(approved: true).all, items: 10)
+    @pagy, @books = pagy(Book.where(approved: true).order(params[:sort]).all, items: 10)
   end
 
   # GET /books/1
@@ -110,7 +110,7 @@ class BooksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def book_params
-    params.require(:book).permit(:title, :pages, :year_published, { format: [:cover] }, :isbns, :volume, :volumes, :price, :is_new, :condition, { publishers: [:name] }, { serie: [:name] }, { language: [:name] }, :shelf, { images: [] }, :circulation, :description, :quantity, :approved)
+    params.require(:book).permit(:title, :pages, :year_published, { format: [:cover] }, :isbns, :volume, :volumes, :price, :is_new, :condition, { publishers: [:name] }, { serie: [:name] }, { language: [:name] }, :shelf, { images: [] }, :circulation, :description, :quantity, :approved, :sort)
   end
 
   def works_params

@@ -4,12 +4,13 @@
     <th>Cover</th>
     <th>Approved</th>
     <th>ISBNs</th>
-    <th>Title</th>
+    <th><%= link_to 'Title', sort: 'title' %></th>
     <th>Authors</th>
-    <th>Price</th>
+    <th><%= link_to 'Price', sort: 'price' %></th>
     <th>Publishers</th>
     <th>Serie</th>
-    <th>Shelf</th>
+    <th><%= link_to 'Shelf', sort: 'shelf' %></th>
+    <th><%= link_to 'Updated at', sort: 'updated_at' %></th>
     <% if admin? %><th colspan="3"></th><% end %>
   </tr>
   </thead>
@@ -26,6 +27,7 @@
       <td><%= book.publishers.map(&:name).join('; ') if book.publishers.any? %></td>
       <td><%= book.serie.name if book.serie %></td>
       <td><%= book.shelf %></td>
+      <td><%= book.updated_at %></td>
       <% if admin? %>
         <td><%= link_to 'Show', book %></td>
         <td><%= link_to 'Edit', edit_book_path(book) %></td>
