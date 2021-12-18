@@ -1,5 +1,6 @@
 .git
 tmp
 backups
+storage
 catalog.iml
 README.md
