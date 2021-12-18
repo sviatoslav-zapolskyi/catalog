@@ -8,32 +8,33 @@ class Scraper
   attr_accessor :driver
 
   def initialize
-    puts "Selenium::WebDriver Init"
+    puts 'Selenium::WebDriver Init'
     options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
     @driver = Selenium::WebDriver.for(:firefox, options: options)
     @driver.manage.timeouts.implicit_wait = 3
   end
 
   def book_params(fantlab_book_url)
+    print " open book: '#{fantlab_book_url}';"
     driver.get fantlab_book_url unless driver.current_url.eql? fantlab_book_url
 
     {
-        title: (find_element_by(itemprop: 'name').text if any_elements itemprop: 'name'),
-        pages: (find_element_by(itemprop: 'numberOfPages').text if any_elements itemprop: 'numberOfPages'),
-        year_published: (find_element_by(itemprop: 'copyrightYear').text if any_elements itemprop: 'copyrightYear'),
-        isbns: (find_element_by(itemprop: 'isbn').text if any_elements itemprop: 'isbn'),
-        circulation: (find_element_by(id: 'count').text if any_elements id: 'count'),
-        description: (find_element_by(id: 'descript').text if any_elements id: 'descript'),
+        title: find_element_or_empty({itemprop: 'name'}, &:text),
+        pages: find_element_or_empty({itemprop: 'numberOfPages'}, &:text),
+        year_published: find_element_or_empty({itemprop: 'copyrightYear'}, &:text),
+        isbns: find_element_or_empty({itemprop: 'isbn'}, &:text),
+        circulation: find_element_or_empty({id: 'count'}, &:text),
+        description: find_element_or_empty({id: 'descript'}, &:text),
 
         publishers: find_elements_by(itemprop: 'publisher').map { |p| { name: p.text } },
 
         format: {
-            cover: (find_element_by(itemprop: 'bookFormat').text if any_elements itemprop: 'bookFormat'),
-            format: (find_element_by(id: 'format').find_element(xpath: '..').text.gsub('Формат: ', '') if any_elements id: 'format')
+            cover: find_element_or_empty({itemprop: 'bookFormat'}, &:text),
+            format: find_element_or_empty(id: 'format') { |e| e.find_element(xpath: '..').text.gsub('Формат: ', '') }
         },
 
         serie: {
-            name: (find_element_by(id: 'series').text if any_elements id: 'series'),
+            name: find_element_or_empty({id: 'series'}, &:text),
         },
 
         approved: false
@@ -57,20 +58,21 @@ class Scraper
   def work_params(fantlab_work_url)
     driver.get fantlab_work_url
 
-    if any_elements itemprop: 'datePublished'
-      date_published_element = find_element_by(itemprop: 'datePublished')
-      unit = date_published_element.find_element(xpath: '..').text
-      year = date_published_element.text
-      major_form = unit.split(", #{year}").first
+    year, major_form = find_element_or_empty(itemprop: 'datePublished') do |e|
+      year = e.text
+      major_form = e.find_element(xpath: '..').text.split(", #{year}").first
+      [year, major_form]
     end
 
+    print " year=#{year};major_form=#{major_form};"
+
     {
-        name: (find_element_by(itemprop: 'name').text if any_elements itemprop: 'name'),
+        name: find_element_or_empty({itemprop: 'name'}, &:text),
         major_form: major_form,
         year: year,
-        language: (find_element_by(id: 'work-langinit-unit').text.split(': ')[1] if any_elements id: 'work-langinit-unit'),
+        language: find_element_or_empty(id: 'work-langinit-unit') { |e| e.text.split(': ')[1] },
         authors: driver.find_elements(xpath: "//div[@id='work-names-unit']//a[@itemprop='author']").map(&:text).join('; '),
-        abstract: (find_element_by(itemprop: 'description').text if any_elements itemprop: 'description'),
+        abstract: find_element_or_empty({itemprop: 'description'}, &:text),
     }
   end
 
@@ -99,7 +101,7 @@ class Scraper
       return found_in_catalog if found_in_catalog.works == book.works
       found_in_catalog.isbns.to_a.each do |isbn|
         if book.isbns.to_a.include? isbn
-          puts 'duplicate!'
+          puts ' duplicate!'
           found_in_catalog.isbns = found_in_catalog.isbns.map(&:value).append(@isbn_value).uniq.join(',')
           return found_in_catalog
         end
@@ -113,27 +115,33 @@ class Scraper
     fantlab_search(isbn).each do |found_book_url|
       b_params = book_params(found_book_url)
 
-      b_params[:isbns] << ", #{@isbn_value}"
+      b_params[:isbns] = b_params[:isbns].split(', ').push(@isbn_value).join(', ')
+
       book = Book.new(b_params)
 
-      print " : #{b_params[:title]} ... "
+      print " title: '#{b_params[:title]}';"
 
       return if duplicate book
 
       book_image_urls(found_book_url).each do |url|
-        downloaded_image = open(url)
-        book.images.attach(io: downloaded_image, filename: "#{url.split('/').last}.jpeg")
+        begin
+          downloaded_image = open(url)
+          book.images.attach(io: downloaded_image, filename: "#{url.split('/').last}.jpeg")
+        rescue OpenURI::HTTPError => e
+          print " Failed to open image: '#{url}' "
+          print e
+        end
       end
 
       book.works = works(found_book_url)
       book.save
 
-      puts "saved!"
+      puts ' saved!'
     end
   end
 
   def quite
-    puts "Selenium WebDriver Destroy"
+    puts 'Selenium WebDriver Destroy'
     @driver.quit
   end
 
@@ -148,6 +156,10 @@ class Scraper
     end
 
     driver.switch_to.window( driver.window_handles.first )
+  end
+
+  def find_element_or_empty(param)
+    any_elements(param) ? yield(find_element_by(param)) : ''
   end
 
   def any_elements(param)
@@ -175,7 +187,7 @@ class Scraper
     @isbn_value = isbn
     close_all_and_open_new_tab
 
-    print "search #{isbn}"
+    print "search #{isbn};"
     driver.get("https://fantlab.ru/searchmain?searchstr=#{isbn}")
     found_books = driver.find_elements(xpath: "//div[@class='one']/table/tbody/tr/td/a")
 
@@ -195,7 +207,7 @@ class Scraper
     end
 
     if found_books.any?
-      print " #{found_books.size} found."
+      print " #{found_books.size} found;"
     else
       puts ' not found!'
       Book.create isbns: isbn, title: 'Не найдено на fantlab', approved: false
