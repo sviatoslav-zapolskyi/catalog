@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$1" == "" ] ; then
-    echo "provide backup folder name"
+    echo 'provide backup folder name'
 else
     MYSQL_USER=root
     MYSQL_PASSWORD=password
@@ -12,10 +12,10 @@ else
 
     git checkout ${TAG}
 
-    echo "Stop containers"
+    echo 'Stop containers'
     docker stop $(docker ps -a -q)
 
-    echo  "Remove all containers"
+    echo  'Remove all containers'
     docker rm $(docker ps -a -q)
 
     rm -rf ./storage/
