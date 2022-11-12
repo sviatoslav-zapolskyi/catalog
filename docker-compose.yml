@@ -7,7 +7,7 @@ services:
   ports:
    - 3000:3000
   volumes:
-   - storage:/app/storage
+   - ./storage:/app/storage
   environment:
    - DEV_DATABASE_HOST=db
   depends_on:
@@ -23,7 +23,7 @@ services:
     bash -c "bundle exec rake db:migrate &&
              bundle exec rake jobs:work"
   volumes:
-   - storage:/app/storage
+   - ./storage:/app/storage
   environment:
    - DEV_DATABASE_HOST=db
   depends_on:
