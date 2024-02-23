@@ -19,4 +19,8 @@ class Work < ApplicationRecord
       interpreter
     end)
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["abstract", "name", "year"]
+  end
 end

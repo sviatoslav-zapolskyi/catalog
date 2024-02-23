@@ -17,13 +17,6 @@
     <%= form.text_field :hash_id %>
   </div>
 
-  <% if _old_virtual_path.include? 'edit' %>
-    <div class="field">
-      <%= form.label :shelf %>
-      <%= form.text_field :shelf %>
-    </div>
-  <% end %>
-
   <div class="field">
     <%= form.label :EAN13 %>
     <%= form.file_field :EAN13 %>

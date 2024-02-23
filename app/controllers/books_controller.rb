@@ -90,7 +90,9 @@ class BooksController < ApplicationController
       @book = duplicate
     else
       scrap.book_image_urls(scrap_url).each do |url|
-        @book.images.attach(io: open(url), filename: "#{url.split('/').last}.jpeg")
+        image_uri = URI.parse(url)
+        image_name = image_uri.path.split('/').last
+        @book.images.attach(io: image_uri.open, filename: "#{image_name}.jpeg")
       end
 
       @book.save

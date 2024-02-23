@@ -1,16 +1,17 @@
-FROM ruby:2.6.8
+FROM ruby:3.2.2
 
 # http://mozilla.debian.net/
-RUN echo "deb http://security.debian.org/ stretch/updates main" > /etc/apt/sources.list.d/debian-mozilla.list \
-       && apt-get update \
-       && apt-get install -y firefox-esr
+RUN echo "deb http://security.debian.org/debian-security stable-security/updates main" > /etc/apt/sources.list.d/debian-mozilla.list && \
+    apt update && \
+    apt install -y firefox-esr
 
-RUN VERSION='v0.27.0' \
-       && curl -L https://github.com/mozilla/geckodriver/releases/download/${VERSION}/geckodriver-${VERSION}-linux64.tar.gz | tar xz -C /usr/local/bin
+RUN VERSION='v0.33.0' && \
+    curl -L https://github.com/mozilla/geckodriver/releases/download/${VERSION}/geckodriver-${VERSION}-linux64.tar.gz | tar xz -C /usr/local/bin
 
 # https://github.com/nodesource/distributions#installation-instructions
-RUN curl -sL https://deb.nodesource.com/setup_17.x | bash - \
-       && apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_17.x | bash - && \
+    apt update && \
+    apt install -y nodejs
 
 # Make the directory for the app
 RUN mkdir /app

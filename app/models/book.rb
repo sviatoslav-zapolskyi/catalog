@@ -86,4 +86,8 @@ class Book < ApplicationRecord
     end.compact.uniq
   end
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["description", "shelf", "title", "year_published"]
+  end
+
 end
