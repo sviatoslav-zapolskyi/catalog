@@ -25,10 +25,14 @@ else
     docker-compose up --build --detach
 
     echo 'Restore mysqldump.sql'
-    while ! cat ${BACKUP_HOME}/mysqldump.sql | docker-compose exec --no-TTY db /usr/bin/mysql -u ${MYSQL_USER} -p${MYSQL_PASSWORD} catalog_development >/dev/null 2>&1 ; do
+    while ! cat ${BACKUP_HOME}/mysqldump.sql \
+      | docker-compose exec --no-TTY db /usr/bin/mysql -u ${MYSQL_USER} \
+                                              -p${MYSQL_PASSWORD} catalog_development &>/dev/null
+    do
         echo 'Wait mysql to start ...'
         sleep 3
     done
+
     echo 'Restore mysqldump.sql ... done.'
 
     docker-compose up --detach worker

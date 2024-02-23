@@ -10,4 +10,4 @@ echo "${TAG}" > "${BACKUP_HOME}/git_tag.txt"
 #tar -zcvf "${BACKUP_HOME}/storage.tar.gz" ./storage/
 tar cf - ./storage/ -P | pv -s $(($(du -sk ./storage/ | awk '{print $1}') * 1024)) | gzip > "${BACKUP_HOME}/storage.tar.gz"
 
-docker-compose exec db /usr/bin/mysqldump -u root -ppassword catalog_development > "${BACKUP_HOME}/mysqldump.sql"
+docker-compose exec --no-TTY db /usr/bin/mysqldump -u root -ppassword catalog_development > "${BACKUP_HOME}/mysqldump.sql" 2>/dev/null
