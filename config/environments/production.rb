@@ -73,6 +73,9 @@ Rails.application.configure do
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
 
+  # https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#new-activesupport-cache-serialization-format
+  config.active_support.cache_format_version = 7.0
+
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 

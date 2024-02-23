@@ -125,8 +125,9 @@ class Scraper
 
       book_image_urls(found_book_url).each do |url|
         begin
-          downloaded_image = open(url)
-          book.images.attach(io: downloaded_image, filename: "#{url.split('/').last}.jpeg")
+          image_uri = URI.parse(url)
+          image_name = image_uri.path.split('/').last
+          book.images.attach(io: image_uri.open, filename: "#{image_name}.jpeg")
         rescue OpenURI::HTTPError => e
           print " Failed to open image: '#{url}' "
           print e

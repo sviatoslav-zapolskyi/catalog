@@ -35,6 +35,9 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  # https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#new-activesupport-cache-serialization-format
+  config.active_support.cache_format_version = 7.0
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

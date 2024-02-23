@@ -38,6 +38,9 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
+  # https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#new-activesupport-cache-serialization-format
+  config.active_support.cache_format_version = 7.0
+
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
