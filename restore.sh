@@ -22,17 +22,19 @@ else
 
     rm tmp/pids/server.pid
 
+    # applying mysqldump.sql through `docker-compose exec` doesn't work
+    # Rancher and Docker creates differ container names when `docker-compose up`
+    # for make script work for both Rancher and Docker I should up db first and store container id
+    docker-compose up --detach db
+    DB_ID="$(docker-compose ps --quiet)"
+
     docker-compose up --build --detach
 
     echo 'Restore mysqldump.sql'
-    while ! cat ${BACKUP_HOME}/mysqldump.sql \
-      | docker-compose exec --no-TTY db /usr/bin/mysql -u ${MYSQL_USER} \
-                                              -p${MYSQL_PASSWORD} catalog_development &>/dev/null
-    do
+    while ! cat ${BACKUP_HOME}/mysqldump.sql | docker exec -i "$DB_ID" /usr/bin/mysql -u ${MYSQL_USER} -p${MYSQL_PASSWORD} catalog_development &>/dev/null ; do
         echo 'Wait mysql to start ...'
         sleep 3
     done
-
     echo 'Restore mysqldump.sql ... done.'
 
     docker-compose up --detach worker
